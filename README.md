@@ -1,2 +1,1 @@
-# Tower Defense
-## Team 55 - The Tree
+# Team 55 - The Tree: Tower Defense
