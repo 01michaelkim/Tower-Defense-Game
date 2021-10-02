@@ -3,6 +3,9 @@ package view;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -17,8 +20,12 @@ public class GameScreen {
     }
 
     public Scene getScene() {
+        FlowPane root = new FlowPane();
         Label label = new Label("Tower Defense");
-        Scene scene = new Scene(label, width, height);
+        Image back = new Image("images//map.png");
+        ImageView background = new ImageView(back);
+        root.getChildren().addAll(label, background);
+        Scene scene = new Scene(root, width, height);
         return scene;
     }
 }
