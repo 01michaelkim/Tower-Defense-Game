@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.GameModel;
@@ -16,7 +18,7 @@ public class Controller extends Application {
     private Stage mainWindow;
     private GameModel gameModel;
     private final int width = 500;
-    private final int height = 500;
+    private final int height = 600;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -28,9 +30,15 @@ public class Controller extends Application {
 
     private void initWelcomeScreen() {
         WelcomeScreen screen = new WelcomeScreen(width, height);
-        Button startButton = screen.getStartButton();
-        startButton.setOnAction(e -> initConfigurationScreen());
-
+        /**
+         Button startButton = screen.getStartButton();
+         startButton.setOnAction(e -> initConfigurationScreen());
+         */
+        ImageView startButton = screen.getStartButton();
+        //Button Action Events
+        startButton.setOnMouseClicked(e -> initConfigurationScreen());
+        startButton.setOnMouseEntered(e -> screen.toggleStartButton());
+        startButton.setOnMouseExited(e -> screen.toggleStartButton());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
@@ -40,7 +48,6 @@ public class Controller extends Application {
         ConfigurationScreen screen = new ConfigurationScreen(width, height);
         Button playButton = screen.getStartButton();
         playButton.setOnAction(e -> initGameScreen());
-
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
@@ -48,7 +55,6 @@ public class Controller extends Application {
 
     private void initGameScreen() {
         GameScreen screen = new GameScreen(width, height);
-
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
