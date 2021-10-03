@@ -19,6 +19,7 @@ public class ConfigurationScreen {
     private TextField nameLabel;
     private GameModel gameModel;
     private static Label namePrompt;
+    private Label warning;
 
     public ConfigurationScreen(int width, int height) {
         this.width = width;
@@ -49,7 +50,8 @@ public class ConfigurationScreen {
                 "HARD"
         );
         dropdown.setPromptText("Select Level");
-        HBox difficultyBox = new HBox(label, dropdown);
+        warning = new Label ("");
+        VBox difficultyBox = new VBox(label, dropdown, warning);
         difficultyBox.setAlignment(Pos.CENTER);
 
         // Create a play button
@@ -58,7 +60,6 @@ public class ConfigurationScreen {
 
         //Updates name prompt to show the name that was entered in, and checks if it is valid
         nameLabel.setOnAction(e -> {
-            System.out.println(nameLabel.getText());
             checkName(nameLabel.getText());
         });
 
@@ -70,17 +71,31 @@ public class ConfigurationScreen {
         Scene scene = new Scene(vbox, width, height);
         return scene;
     }
+
     //helper function that checks the inputted name string
-    public void checkName (String s) {
+    public boolean checkName (String s) {
         if (s.equals(null)) {
             namePrompt.setText("You MUST enter a name!");
+            return false;
         } else if (s.isEmpty()) {
             namePrompt.setText("You MUST enter a name that isn't empty!");
+            return false;
         } else if (s.trim().length() == 0) {
             namePrompt.setText("You MUST enter a name with valid characters!");
+            return false;
         } else {
             namePrompt.setText("Name: " + nameLabel.getText());
+            return true;
         }
+    }
+    public boolean checkDrop () {
+        if (dropdown.getValue() != null) {
+            return true;
+        } else {
+            warning.setText("Pleas Select a Difficulty");
+            return false;
+        }
+
     }
 
     public Button getPlayButton() {

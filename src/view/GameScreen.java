@@ -7,6 +7,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 
+
 public class GameScreen {
     private int width;
     private int height;
@@ -33,4 +34,14 @@ public class GameScreen {
         Scene scene = new Scene(root, width, height);
         return scene;
     }
+    public void checkMoney(String s) {
+        if (s.equals("EASY")) {
+            health = 300;
+        } else if (s.equals("MEDIUM")) {
+            health = 200;
+        } else if (s.equals("HARD")) {
+            health = 100;
+        }
+    }
+
 }
