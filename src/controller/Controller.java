@@ -60,7 +60,7 @@ public class Controller extends Application {
     }
 
     private void initGameScreen() {
-        GameScreen screen = new GameScreen(width, height + 50);
+        GameScreen screen = new GameScreen(width, height + 75);
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();

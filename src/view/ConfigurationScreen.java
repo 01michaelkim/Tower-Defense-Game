@@ -18,6 +18,7 @@ public class ConfigurationScreen {
     private ComboBox dropdown;
     private TextField nameLabel;
     private GameModel gameModel;
+    private static Label namePrompt;
 
     public ConfigurationScreen(int width, int height) {
         this.width = width;
@@ -35,7 +36,7 @@ public class ConfigurationScreen {
         titleBox.setAlignment(Pos.TOP_CENTER);
 
         // Create a HBox to request player name and provide a textfield for input and center the box
-        Label namePrompt = new Label("Enter your name:");
+        namePrompt = new Label("Enter your name:");
         HBox nameBox = new HBox(namePrompt, nameLabel);
         nameBox.setSpacing(10);
         nameBox.setAlignment(Pos.CENTER);
@@ -55,6 +56,12 @@ public class ConfigurationScreen {
         HBox playBox = new HBox(playButton);
         playBox.setAlignment(Pos.CENTER);
 
+        //Updates name prompt to show the name that was entered in
+        nameLabel.setOnAction(e -> {
+            System.out.println(nameLabel.getText());
+            checkName(nameLabel.getText());
+        });
+
         // Create a Root Pane to add all the panes
         VBox vbox = new VBox(titleBox, nameBox, difficultyBox, playBox);
         vbox.setAlignment(Pos.CENTER);
@@ -64,6 +71,18 @@ public class ConfigurationScreen {
         return scene;
     }
 
+    public void checkName (String s) {
+        if (s.equals(null)) {
+            namePrompt.setText("You MUST enter a name!");
+        } else if (s.isEmpty()) {
+            namePrompt.setText("You MUST enter a name that isn't empty!");
+        } else if (s.trim().length() == 0) {
+            namePrompt.setText("You MUST enter a name with valid characters!");
+        } else {
+            namePrompt.setText("Name: " + nameLabel.getText());
+        }
+    }
+
     public Button getPlayButton() {
         return playButton;
     }
@@ -71,8 +90,11 @@ public class ConfigurationScreen {
     public ComboBox getDropdown() {
         return dropdown;
     }
-
     public TextField getNameLabel() {
         return nameLabel;
+    }
+
+    public static Label getNamePrompt() {
+        return namePrompt;
     }
 }

@@ -12,6 +12,7 @@ public class GameScreen {
     private int height;
     private int health = 100;
     private int money = 500;
+    private String characterName;
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -25,7 +26,9 @@ public class GameScreen {
         ImageView background = new ImageView(back);
         Label healthLabel = new Label("Health: " + health);
         Label moneyLabel = new Label("Money: " + money);
-        VBox vbox = new VBox(healthLabel, moneyLabel);
+        characterName = ConfigurationScreen.getNamePrompt().getText();
+        Label nameLabel = new Label(characterName);
+        VBox vbox = new VBox(healthLabel, moneyLabel, nameLabel);
         root.getChildren().addAll(label, background, vbox);
         Scene scene = new Scene(root, width, height);
         return scene;
