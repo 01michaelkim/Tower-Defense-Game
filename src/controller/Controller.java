@@ -5,9 +5,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.GameModel;
 import view.ConfigurationScreen;
@@ -47,7 +50,18 @@ public class Controller extends Application {
     private void initConfigurationScreen() {
         ConfigurationScreen screen = new ConfigurationScreen(width, height);
         Button playButton = screen.getStartButton();
-        playButton.setOnAction(e -> initGameScreen());
+        ComboBox combo = screen.getCombo();
+        Popup pop = screen.getPop();
+        TextField tf = screen.getTf();
+        playButton.setOnAction((ActionEvent event) -> {
+            if (!(combo.getValue() == null) && (!tf.getText().isEmpty())) {
+                initGameScreen();
+            } else {
+                if (!pop.isShowing()) {
+                    pop.show(mainWindow);
+                }
+            }
+        });
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();

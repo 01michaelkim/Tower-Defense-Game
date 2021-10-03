@@ -9,6 +9,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
+import javafx.stage.Popup;
+import javafx.scene.paint.Color;
+import javafx.event.ActionEvent;
 
 public class ConfigurationScreen {
     private int width;
@@ -20,6 +23,8 @@ public class ConfigurationScreen {
     private String mode;
     private TextField tf;
     private String name;
+    private Popup pop;
+    private ComboBox combo;
 
     public ConfigurationScreen(int width, int height) {
         this.width = width;
@@ -56,16 +61,26 @@ public class ConfigurationScreen {
         HBox diff = new HBox();
         Label label = new Label("Select the Difficulty:");
         String difficulty[] = {"EASY", "MEDIUM", "HARD"};
-        ComboBox combo = new ComboBox(FXCollections.observableArrayList(difficulty));
+        combo = new ComboBox(FXCollections.observableArrayList(difficulty));
         combo.setPromptText("Select Level");
         diff.getChildren().addAll(label, combo);
         diff.setPadding(new Insets(10, 5, 10, 150));
 
-
-
         //Play Button
         HBox playBox = new HBox(playButton);
         playBox.setPadding(new Insets(50, 5, 5, 190));
+
+        pop = new Popup();
+        Label label3 = new Label("Invalid Inputs, Please Select a Difficulty and Enter Your Name.");
+        label3.setStyle(" -fx-background-color: red;");
+        label3.setTextFill(Color.WHITE);
+        pop.getContent().add(label3);
+        pop.setAutoHide(true);
+
+
+
+
+
 
         //Root Pane
         VBox vbox = new VBox(titleBox, nameBox, txtBox, diff, playBox);
@@ -77,9 +92,16 @@ public class ConfigurationScreen {
     public Button getStartButton() {
         return playButton;
     }
-    public void setName() {
-        name = tf.getText();
-        //nameLabel.setText(name);
-        tf.clear();
+
+    public Popup getPop() {
+        return pop;
+    }
+
+    public ComboBox getCombo() {
+        return combo;
+    }
+
+    public TextField getTf() {
+        return tf;
     }
 }
