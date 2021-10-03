@@ -49,9 +49,12 @@ public class Controller extends Application {
         ComboBox dropdown = screen.getDropdown();
         TextField nameLabel = screen.getNameLabel();
         playButton.setOnAction(e -> {
-            gameModel.setDifficulty(dropdown.getValue().toString());
-            gameModel.setCharacterName(nameLabel.getText());
-            initGameScreen();
+            if (screen.checkName(screen.getNameLabel().getText()) && screen.checkDrop()) {
+                System.out.println(screen.getDropdown().getValue());
+                gameModel.setDifficulty(dropdown.getValue().toString());
+                gameModel.setCharacterName(nameLabel.getText());
+                initGameScreen();
+            }
         });
 
         Scene scene = screen.getScene();
@@ -60,7 +63,8 @@ public class Controller extends Application {
     }
 
     private void initGameScreen() {
-        GameScreen screen = new GameScreen(width, height + 75);
+        GameScreen screen = new GameScreen(width, height + 100);
+        screen.checkMoney(gameModel.getDifficulty());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
