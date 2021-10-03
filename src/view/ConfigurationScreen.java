@@ -1,5 +1,6 @@
 package view;
 
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -7,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.control.ComboBox;
 
 public class ConfigurationScreen {
     private int width;
@@ -51,16 +53,22 @@ public class ConfigurationScreen {
         diffButtons.setPadding(new Insets(50, 5, 10, 150));
 
         //Difficulty Label
-        Label difficulty = new Label(mode);
-        HBox diffBox = new HBox(difficulty);
-        diffBox.setPadding(new Insets(10, 5, 10, 200));
+        HBox diff = new HBox();
+        Label label = new Label("Select the Difficulty:");
+        String difficulty[] = {"EASY", "MEDIUM", "HARD"};
+        ComboBox combo = new ComboBox(FXCollections.observableArrayList(difficulty));
+        combo.setPromptText("Select Level");
+        diff.getChildren().addAll(label, combo);
+        diff.setPadding(new Insets(10, 5, 10, 150));
+
+
 
         //Play Button
         HBox playBox = new HBox(playButton);
         playBox.setPadding(new Insets(50, 5, 5, 190));
 
         //Root Pane
-        VBox vbox = new VBox(titleBox, nameBox, txtBox, diffButtons, diffBox, playBox);
+        VBox vbox = new VBox(titleBox, nameBox, txtBox, diff, playBox);
         vbox.setPadding(new Insets(5, 5, 5, 5));
         Scene scene = new Scene(vbox, width, height);
         return scene;
