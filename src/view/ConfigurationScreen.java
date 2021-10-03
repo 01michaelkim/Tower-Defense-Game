@@ -56,7 +56,7 @@ public class ConfigurationScreen {
         HBox playBox = new HBox(playButton);
         playBox.setAlignment(Pos.CENTER);
 
-        //Updates name prompt to show the name that was entered in
+        //Updates name prompt to show the name that was entered in, and checks if it is valid
         nameLabel.setOnAction(e -> {
             System.out.println(nameLabel.getText());
             checkName(nameLabel.getText());
@@ -70,7 +70,7 @@ public class ConfigurationScreen {
         Scene scene = new Scene(vbox, width, height);
         return scene;
     }
-
+    //helper function that checks the inputted name string
     public void checkName (String s) {
         if (s.equals(null)) {
             namePrompt.setText("You MUST enter a name!");
@@ -93,7 +93,7 @@ public class ConfigurationScreen {
     public TextField getNameLabel() {
         return nameLabel;
     }
-
+    //function used to import the name to the GameScreen
     public static Label getNamePrompt() {
         return namePrompt;
     }
