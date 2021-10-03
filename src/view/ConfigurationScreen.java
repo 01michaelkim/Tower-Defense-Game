@@ -1,7 +1,7 @@
 package view;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,99 +9,70 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
-import javafx.stage.Popup;
-import javafx.scene.paint.Color;
-import javafx.event.ActionEvent;
+import model.GameModel;
 
 public class ConfigurationScreen {
     private int width;
     private int height;
     private Button playButton;
-    private Button easyButton;
-    private Button medButton;
-    private Button hardButton;
-    private String mode;
-    private TextField tf;
-    private String name;
-    private Popup pop;
-    private ComboBox combo;
+    private ComboBox dropdown;
+    private TextField nameLabel;
+    private GameModel gameModel;
 
     public ConfigurationScreen(int width, int height) {
         this.width = width;
         this.height = height;
-        playButton = new Button("Play Game");
-        easyButton = new Button("Easy");
-        medButton = new Button("Medium");
-        hardButton = new Button("Hard");
-        mode = "Medium";
-        tf = new TextField();
-        name = "";
+        this.playButton = new Button("Play Game");
+        this.gameModel = new GameModel();
+        this.dropdown = new ComboBox();
+        this.nameLabel = new TextField();
     }
 
     public Scene getScene() {
-        //Screen Title
-        Label title = new Label("Configurations");
+        // Create a HBOx to store the title for the Configuration screen and center the box
+        Label title = new Label("Set Game Configurations");
         HBox titleBox = new HBox(title);
-        titleBox.setPadding(new Insets(10, 5, 10, 180));
+        titleBox.setAlignment(Pos.TOP_CENTER);
 
-        //Name Label
+        // Create a HBox to request player name and provide a textfield for input and center the box
         Label namePrompt = new Label("Enter your name:");
-        Label nameLabel = new Label(name);
         HBox nameBox = new HBox(namePrompt, nameLabel);
-        nameBox.setPadding(new Insets(10, 5, 10, 180));
+        nameBox.setSpacing(10);
+        nameBox.setAlignment(Pos.CENTER);
 
-        //Text Field
-        HBox txtBox = new HBox(tf);
-        txtBox.setPadding(new Insets(10, 5, 10, 150));
-        //Difficulty Selection Buttons
-        HBox diffButtons = new HBox(easyButton, medButton, hardButton);
-        diffButtons.setPadding(new Insets(50, 5, 10, 150));
-
-        //Difficulty Label
-        HBox diff = new HBox();
+        // Create a dropdown menu for the user to select a difficulty and center the HBox
         Label label = new Label("Select the Difficulty:");
-        String difficulty[] = {"EASY", "MEDIUM", "HARD"};
-        combo = new ComboBox(FXCollections.observableArrayList(difficulty));
-        combo.setPromptText("Select Level");
-        diff.getChildren().addAll(label, combo);
-        diff.setPadding(new Insets(10, 5, 10, 150));
+        dropdown.getItems().addAll(
+                "EASY",
+                "MEDIUM",
+                "HARD"
+        );
+        dropdown.setPromptText("Select Level");
+        HBox difficultyBox = new HBox(label, dropdown);
+        difficultyBox.setAlignment(Pos.CENTER);
 
-        //Play Button
+        // Create a play button
         HBox playBox = new HBox(playButton);
-        playBox.setPadding(new Insets(50, 5, 5, 190));
+        playBox.setAlignment(Pos.CENTER);
 
-        pop = new Popup();
-        Label label3 = new Label("Invalid Inputs, Please Select a Difficulty and Enter Your Name.");
-        label3.setStyle(" -fx-background-color: red;");
-        label3.setTextFill(Color.WHITE);
-        pop.getContent().add(label3);
-        pop.setAutoHide(true);
-
-
-
-
-
-
-        //Root Pane
-        VBox vbox = new VBox(titleBox, nameBox, txtBox, diff, playBox);
+        // Create a Root Pane to add all the panes
+        VBox vbox = new VBox(titleBox, nameBox, difficultyBox, playBox);
+        vbox.setAlignment(Pos.CENTER);
+        vbox.setSpacing(25);
         vbox.setPadding(new Insets(5, 5, 5, 5));
         Scene scene = new Scene(vbox, width, height);
         return scene;
     }
 
-    public Button getStartButton() {
+    public Button getPlayButton() {
         return playButton;
     }
 
-    public Popup getPop() {
-        return pop;
+    public ComboBox getDropdown() {
+        return dropdown;
     }
 
-    public ComboBox getCombo() {
-        return combo;
-    }
-
-    public TextField getTf() {
-        return tf;
+    public TextField getNameLabel() {
+        return nameLabel;
     }
 }

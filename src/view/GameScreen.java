@@ -1,18 +1,15 @@
 package view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class GameScreen {
     private int width;
     private int height;
-    private Button startButton;
     private int health = 100;
     private int money = 500;
 

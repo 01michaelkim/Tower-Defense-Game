@@ -1,16 +1,11 @@
 package controller;
 
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import model.GameModel;
 import view.ConfigurationScreen;
@@ -33,35 +28,32 @@ public class Controller extends Application {
 
     private void initWelcomeScreen() {
         WelcomeScreen screen = new WelcomeScreen(width, height);
-        /**
-         Button startButton = screen.getStartButton();
-         startButton.setOnAction(e -> initConfigurationScreen());
-         */
+
+        // Create the start button for the welcome screen
         ImageView startButton = screen.getStartButton();
-        //Button Action Events
         startButton.setOnMouseClicked(e -> initConfigurationScreen());
         startButton.setOnMouseEntered(e -> screen.toggleStartButton());
         startButton.setOnMouseExited(e -> screen.toggleStartButton());
+
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
     }
 
     private void initConfigurationScreen() {
-        ConfigurationScreen screen = new ConfigurationScreen(width, height);
-        Button playButton = screen.getStartButton();
-        ComboBox combo = screen.getCombo();
-        Popup pop = screen.getPop();
-        TextField tf = screen.getTf();
-        playButton.setOnAction((ActionEvent event) -> {
-            if (!(combo.getValue() == null) && (!tf.getText().isEmpty())) {
-                initGameScreen();
-            } else {
-                if (!pop.isShowing()) {
-                    pop.show(mainWindow);
-                }
-            }
+        ConfigurationScreen screen = new ConfigurationScreen(width, height / 2);
+
+        // Create the play button screen which sets the difficulty, character name,
+        // and moves to game screen when pressed
+        Button playButton = screen.getPlayButton();
+        ComboBox dropdown = screen.getDropdown();
+        TextField nameLabel = screen.getNameLabel();
+        playButton.setOnAction(e -> {
+            gameModel.setDifficulty(dropdown.getValue().toString());
+            gameModel.setCharacterName(nameLabel.getText());
+            initGameScreen();
         });
+
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
