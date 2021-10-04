@@ -20,11 +20,12 @@ public class ConfigurationScreen {
     private GameModel gameModel;
     private static Label namePrompt;
     private Label warning;
+    private Label title;
 
     public ConfigurationScreen(int width, int height) {
         this.width = width;
         this.height = height;
-        this.playButton = new Button("Play Game");
+        playButton = new Button("Play Game");
         this.gameModel = new GameModel();
         this.dropdown = new ComboBox();
         this.nameLabel = new TextField();
@@ -32,7 +33,7 @@ public class ConfigurationScreen {
 
     public Scene getScene() {
         // Create a HBOx to store the title for the Configuration screen and center the box
-        Label title = new Label("Set Game Configurations");
+        title = new Label("Set Game Configurations");
         HBox titleBox = new HBox(title);
         titleBox.setAlignment(Pos.TOP_CENTER);
 
@@ -88,11 +89,11 @@ public class ConfigurationScreen {
             return true;
         }
     }
-    public boolean checkDrop () {
+    public boolean checkDrop() {
         if (dropdown.getValue() != null) {
             return true;
         } else {
-            warning.setText("Pleas Select a Difficulty");
+            warning.setText("Please Select a Difficulty");
             return false;
         }
 
@@ -111,5 +112,17 @@ public class ConfigurationScreen {
     //function used to import the name to the GameScreen
     public static Label getNamePrompt() {
         return namePrompt;
+    }
+    /**
+     * Additional Methods to help with Testing
+     */
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
+    }
+    public Label getTitle() {
+        return title;
     }
 }
