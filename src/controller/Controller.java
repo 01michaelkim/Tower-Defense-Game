@@ -1,6 +1,7 @@
 package controller;
 
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,6 +18,10 @@ public class Controller extends Application {
     private GameModel gameModel;
     private final int width = 500;
     private final int height = 600;
+    private ImageView startButton;
+    private Button playButton;
+    private TextField nameLabel;
+    private ComboBox dropdown;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -30,7 +35,7 @@ public class Controller extends Application {
         WelcomeScreen screen = new WelcomeScreen(width, height);
 
         // Create the start button for the welcome screen
-        ImageView startButton = screen.getStartButton();
+        startButton = screen.getStartButton();
         startButton.setOnMouseClicked(e -> initConfigurationScreen());
         startButton.setOnMouseEntered(e -> screen.toggleStartButton());
         startButton.setOnMouseExited(e -> screen.toggleStartButton());
@@ -45,9 +50,9 @@ public class Controller extends Application {
 
         // Create the play button screen which sets the difficulty, character name,
         // and moves to game screen when pressed
-        Button playButton = screen.getPlayButton();
-        ComboBox dropdown = screen.getDropdown();
-        TextField nameLabel = screen.getNameLabel();
+        playButton = screen.getPlayButton();
+        dropdown = screen.getDropdown();
+        nameLabel = screen.getNameLabel();
         playButton.setOnAction(e -> {
             if (screen.checkName(screen.getNameLabel().getText()) && screen.checkDrop()) {
                 System.out.println(screen.getDropdown().getValue());
@@ -72,5 +77,22 @@ public class Controller extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public ImageView getStart() {
+        return startButton;
+    }
+    public Button getPlayButton() {
+        return playButton;
+    }
+
+    public TextField getNameLabel() {
+        return nameLabel;
+    }
+    public ComboBox getDropdown() {
+        return dropdown;
+    }
+    public GameModel getGameModel() {
+        return gameModel;
     }
 }
