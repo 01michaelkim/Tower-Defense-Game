@@ -51,7 +51,7 @@ public class ConfigurationScreen {
                 "HARD"
         );
         dropdown.setPromptText("Select Level");
-        warning = new Label ("");
+        warning = new Label("");
         VBox difficultyBox = new VBox(label, dropdown, warning);
         difficultyBox.setAlignment(Pos.CENTER);
 
@@ -74,7 +74,7 @@ public class ConfigurationScreen {
     }
 
     //helper function that checks the inputted name string
-    public boolean checkName (String s) {
+    public boolean checkName(String s) {
         if (s.equals(null)) {
             namePrompt.setText("You MUST enter a name!");
             return false;
@@ -89,6 +89,7 @@ public class ConfigurationScreen {
             return true;
         }
     }
+
     public boolean checkDrop() {
         if (dropdown.getValue() != null) {
             return true;
@@ -106,22 +107,24 @@ public class ConfigurationScreen {
     public ComboBox getDropdown() {
         return dropdown;
     }
+
     public TextField getNameLabel() {
         return nameLabel;
     }
+
     //function used to import the name to the GameScreen
     public static Label getNamePrompt() {
         return namePrompt;
     }
-    /**
-     * Additional Methods to help with Testing
-     */
+
     public int getWidth() {
         return width;
     }
+
     public int getHeight() {
         return height;
     }
+
     public Label getTitle() {
         return title;
     }
