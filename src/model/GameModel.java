@@ -22,9 +22,13 @@ public class GameModel {
         return money;
     }
 
-    public void setHealth(int health) {this.health = health; }
+    public void setHealth(int health) {
+        this.health = health;
+    }
 
-    public int getHealth() { return health; }
+    public int getHealth() {
+        return health;
+    }
 
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
