@@ -23,13 +23,15 @@ public class WelcomeScreen {
 
     public Scene getScene() {
         Label label = new Label("Welcome to Tower Defense!");
-        label.setStyle("-fx-font-family: 'Times New Roman'");
         HBox button = new HBox(startButton);
         button.setAlignment(Pos.TOP_CENTER);
         VBox vbox = new VBox(label, button);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setSpacing(200);
         Scene scene = new Scene(vbox, width, height);
+
+        // Set the Style Sheet for the Scene
+        scene.getStylesheets().add("resources/SceneStyle.css");
         return scene;
     }
 

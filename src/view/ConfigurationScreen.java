@@ -70,6 +70,9 @@ public class ConfigurationScreen {
         vbox.setSpacing(25);
         vbox.setPadding(new Insets(5, 5, 5, 5));
         Scene scene = new Scene(vbox, width, height);
+
+        // Set the Style Sheet for the Scene
+        scene.getStylesheets().add("resources/SceneStyle.css");
         return scene;
     }
 

@@ -2,10 +2,13 @@ package view;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 
 public class GameScreen {
@@ -14,6 +17,7 @@ public class GameScreen {
     private int health = 100;
     private int money = 500;
     private String characterName;
+    private ToolBar towerMenu;
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -29,9 +33,22 @@ public class GameScreen {
         Label moneyLabel = new Label("Money: " + money);
         characterName = ConfigurationScreen.getNamePrompt().getText();
         Label nameLabel = new Label(characterName);
+
+        // Create Tower Menu
+//        towerMenu = new ToolBar();
+
+
+        // Create Rectangle
+//        Rectangle selectionRectangle = new Rectangle();
+//        selectionRectangle.setStroke(Color.BLACK);
+//        selectionRectangle.setFill(Color.RED);
+
         VBox vbox = new VBox(healthLabel, moneyLabel, nameLabel);
         root.getChildren().addAll(label, background, vbox);
         Scene scene = new Scene(root, width, height);
+
+        // Set the Style Sheet for the Scene
+        scene.getStylesheets().add("resources/SceneStyle.css");
         return scene;
     }
     public void checkMoney(String s) {
