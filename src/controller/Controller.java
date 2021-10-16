@@ -67,7 +67,7 @@ public class Controller extends Application {
     }
 
     private void initGameScreen() {
-        GameScreen screen = new GameScreen(width, height + 100);
+        GameScreen screen = new GameScreen(width + 50, height + 100);
         screen.checkMoney(gameModel.getDifficulty());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
