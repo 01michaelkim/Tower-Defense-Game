@@ -8,7 +8,11 @@ public class Tower1 {
     private ImageView imageView;
 
     public Tower1() {
-        this.image = new Image("entities/tower1.png");
+        this.image = new Image("images/tower1.png");
         this.imageView = new ImageView(image);
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 }
