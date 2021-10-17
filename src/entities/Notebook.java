@@ -8,6 +8,7 @@ public class Notebook extends Tower {
     private Image image;
     private ImageView imageView;
     private int price;
+    private String description;
 
     public Notebook() {
         this.image = new Image("images/notebook.png");
@@ -23,6 +24,7 @@ public class Notebook extends Tower {
         if (GameModel.getDifficulty() == "HARD"){
             price = 150;
         }
+        description = "Notebook Tower\n Cost: " + price;
     }
 
     @Override
@@ -33,5 +35,9 @@ public class Notebook extends Tower {
     @Override
     public int getPrice() {
         return price;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

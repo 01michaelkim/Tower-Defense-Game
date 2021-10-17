@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -82,6 +83,15 @@ public class GameScreen {
         setAction(notebook, cent);
         setAction(fish, cent);
 
+        Tooltip plantToolTip = new Tooltip(plant.getDescription());
+        Tooltip.install(plantTower, plantToolTip);
+
+        Tooltip notebookToolTip = new Tooltip(notebook.getDescription());
+        Tooltip.install(notebookTower, notebookToolTip);
+
+        Tooltip fishToolTip = new Tooltip(fish.getDescription());
+        Tooltip.install(fishTower, fishToolTip);
+
         Scene scene = new Scene(border, width, height);
 
         // Set the Style Sheet for the Scene
@@ -98,7 +108,7 @@ public class GameScreen {
                     /* allow any transfer mode */
                     Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 
-                    /* Put a string on a dragboard */
+                    /* Put a image on a dragboard */
                     ClipboardContent content = new ClipboardContent();
                     content.putImage(source.getImage());
                     db.setContent(content);
@@ -147,27 +157,26 @@ public class GameScreen {
                 event.consume();
             }
         });
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                /* the drag and drop gesture ended */
-                /* if the data was successfully moved, clear it */
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    source.setImage(new Image("images//plant.png"));
-                }
-                event.consume();
-            }
-        });
+
+//        source.setOnDragDone(new EventHandler<DragEvent>() {
+//            public void handle(DragEvent event) {
+//                /* the drag and drop gesture ended */
+//                /* if the data was successfully moved, clear it */
+//                if (event.getTransferMode() == TransferMode.MOVE) {
+//                    source.setImage(new Image("images//plant.png"));
+//                }
+//                event.consume();
+//            }
+//        });
     }
 
-    public void checkMoney(String s) {
-        if (s != null) {
-            if (s.equals("EASY")) {
-                health = 300;
-            } else if (s.equals("MEDIUM")) {
-                health = 200;
-            } else if (s.equals("HARD")) {
-                health = 100;
-            }
+    public void checkDifficulty(String s) {
+        if (s.equals("EASY")) {
+            health = 300;
+        } else if (s.equals("MEDIUM")) {
+            health = 200;
+        } else if (s.equals("HARD")) {
+            health = 100;
         }
     }
 

@@ -26,6 +26,7 @@ public class Controller extends Application {
     public void start(Stage primaryStage) throws Exception {
         mainWindow = primaryStage;
         mainWindow.setTitle("Welcome to Tower Defense");
+        gameModel = new GameModel();
         initWelcomeScreen();
     }
 
@@ -53,9 +54,7 @@ public class Controller extends Application {
         nameLabel = screen.getNameLabel();
         playButton.setOnAction(e -> {
             if (screen.checkName(screen.getNameLabel().getText()) && screen.checkDrop()) {
-                System.out.println(screen.getDropdown().getValue().toString());
                 GameModel.setDifficulty(dropdown.getValue().toString());
-                System.out.println(GameModel.getDifficulty());
                 GameModel.setCharacterName(nameLabel.getText());
                 initGameScreen();
             }
@@ -68,7 +67,7 @@ public class Controller extends Application {
 
     private void initGameScreen() {
         GameScreen screen = new GameScreen(width + 50, height + 100);
-        screen.checkMoney(GameModel.getDifficulty());
+        screen.checkDifficulty(GameModel.getDifficulty());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
@@ -84,7 +83,6 @@ public class Controller extends Application {
     public Button getPlayButton() {
         return playButton;
     }
-
     public TextField getNameLabel() {
         return nameLabel;
     }

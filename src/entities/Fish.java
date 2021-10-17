@@ -8,6 +8,7 @@ public class Fish extends Tower {
     private Image image;
     private ImageView imageView;
     private int price;
+    private String description;
 
     public Fish() {
         this.image = new Image("images/fish.png");
@@ -23,6 +24,7 @@ public class Fish extends Tower {
         if (GameModel.getDifficulty() == "HARD"){
             price = 150;
         }
+        description = "Fish Tower\n Cost: " + price;
     }
 
     @Override
@@ -32,5 +34,9 @@ public class Fish extends Tower {
 
     public int getPrice() {
         return price;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -8,6 +8,7 @@ public class Plant extends Tower {
     private Image image;
     private ImageView imageView;
     private int price;
+    private String description;
 
     public Plant() {
         this.image = new Image("images/plant.png");
@@ -23,6 +24,7 @@ public class Plant extends Tower {
         if (GameModel.getDifficulty() == "HARD"){
             price = 150;
         }
+        description = "Plant Tower\n Cost: " + price;
     }
 
     @Override
@@ -33,5 +35,9 @@ public class Plant extends Tower {
     @Override
     public int getPrice() {
         return price;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }
