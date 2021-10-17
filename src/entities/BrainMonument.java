@@ -3,16 +3,13 @@ package entities;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Tower1 {
+public class BrainMonument {
     private Image image;
     private ImageView imageView;
+    private int price;
 
-    public Tower1() {
-        this.image = new Image("images/tower1.png");
+    public BrainMonument() {
+        this.image = new Image("images/brain.png");
         this.imageView = new ImageView(image);
-    }
-
-    public ImageView getImageView() {
-        return imageView;
     }
 }
