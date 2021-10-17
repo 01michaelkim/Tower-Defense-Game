@@ -16,7 +16,7 @@ public class Controller extends Application {
     private Stage mainWindow;
     private GameModel gameModel;
     private final int width = 500;
-    private final int height = 600;
+    private final int height = 500;
     private ImageView startButton;
     private Button playButton;
     private TextField nameLabel;
