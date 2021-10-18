@@ -1,11 +1,16 @@
 package view;
 
 //import entities.Tower1;
+import entities.Fish;
+import entities.Notebook;
+import entities.Plant;
+import entities.Tower;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -13,14 +18,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
+import model.GameModel;
 
 
 public class GameScreen {
     private int width;
     private int height;
     private int health = 100;
-    private int money = 500;
     private String characterName;
+    private Label moneyLabel;
     private ToolBar towerMenu;
 
     public GameScreen(int width, int height) {
@@ -31,20 +37,12 @@ public class GameScreen {
     public Scene getScene() {
         // Set a border pane
         BorderPane border = new BorderPane();
-        FlowPane cent = new FlowPane();
-
-        // Create the Title of the Game Screen and add to the top of border pane
-        // MIGHT REMOVE???
-        HBox title = new HBox();
-        Label label = new Label("College Student Tower Defense");
-        title.getChildren().add(label);
-        title.setAlignment(Pos.CENTER);
-        border.setTop(title);
+        Pane cent = new Pane();
 
         // Set the background image and add to the center of the border pane
-
         Image map = new Image("images//map.png");
-        BackgroundImage backImage = new BackgroundImage(map, BackgroundRepeat.NO_REPEAT,
+        BackgroundImage backImage = new BackgroundImage(map,
+                BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT);
@@ -55,7 +53,7 @@ public class GameScreen {
         // Set player stats and add to the bottom of the border pane
         VBox playerStats = new VBox();
         Label healthLabel = new Label("Health: " + health);
-        Label moneyLabel = new Label("Money: " + money);
+        moneyLabel = new Label("Money: " + GameModel.getMoney());
         characterName = ConfigurationScreen.getNamePrompt().getText();
         Label nameLabel = new Label(characterName);
         playerStats.getChildren().addAll(healthLabel, moneyLabel, nameLabel);
@@ -65,30 +63,56 @@ public class GameScreen {
 
         // Create Tower Menu
         VBox towerShop = new VBox();
-        //Tower1 firstTower = new Tower1();
-        //ImageView firstTowerImage = firstTower.getImageView();
-        //For now just using Image as placeholder for actual tower class
-        Image tower1 = new Image("images//plant.png");
-        ImageView firstTowerImage = new ImageView(tower1);
-        firstTowerImage.setFitHeight(50);
-        firstTowerImage.setFitWidth(50);
-        towerShop.getChildren().add(firstTowerImage);
+
+        // Plant
+        Plant plant = new Plant();
+        ImageView plantTower = plant.getImageView();
+
+        // Notebook
+        Notebook notebook = new Notebook();
+        ImageView notebookTower = notebook.getImageView();
+
+        // Fish
+        Fish fish = new Fish();
+        ImageView fishTower = fish.getImageView();
+
+        towerShop.getChildren().addAll(plantTower, notebookTower, fishTower);
         border.setRight(towerShop);
 
-        //Drag and Drop stuff
-        ImageView source = firstTowerImage;
-        FlowPane target = cent;
+        setAction(plant, cent);
+        setAction(notebook, cent);
+        setAction(fish, cent);
+
+        Tooltip plantToolTip = new Tooltip(plant.getDescription());
+        Tooltip.install(plantTower, plantToolTip);
+
+        Tooltip notebookToolTip = new Tooltip(notebook.getDescription());
+        Tooltip.install(notebookTower, notebookToolTip);
+
+        Tooltip fishToolTip = new Tooltip(fish.getDescription());
+        Tooltip.install(fishTower, fishToolTip);
+
+        Scene scene = new Scene(border, width, height);
+
+        // Set the Style Sheet for the Scene
+        scene.getStylesheets().add("resources/SceneStyle.css");
+        return scene;
+    }
+
+    public void setAction(Tower image, Pane target) {
+        ImageView source = image.getImageView();
         source.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
-                /* drag was detected, start a drag-and-drop gesture*/
-                /* allow any transfer mode */
-                Dragboard db = source.startDragAndDrop(TransferMode.ANY);
+                if (image.getPrice() <= GameModel.getMoney()) {
+                    /* drag was detected, start a drag-and-drop gesture*/
+                    /* allow any transfer mode */
+                    Dragboard db = source.startDragAndDrop(TransferMode.ANY);
 
-                /* Put a string on a dragboard */
-                ClipboardContent content = new ClipboardContent();
-                content.putImage(source.getImage());
-                db.setContent(content);
-
+                    /* Put a image on a dragboard */
+                    ClipboardContent content = new ClipboardContent();
+                    content.putImage(source.getImage());
+                    db.setContent(content);
+                }
                 event.consume();
             }
         });
@@ -118,35 +142,35 @@ public class GameScreen {
                     ImageView placed = new ImageView(db.getImage());
                     //Translate translate = new Translate();
                     //placed.relocate(event.getSceneX(), event.getSceneY());
-                    placed.setTranslateX(placed.getTranslateX() + event.getX());
-                    placed.setTranslateY(placed.getTranslateY() + event.getY());
+                    placed.setTranslateX(placed.getTranslateX() + event.getX() - 16);
+                    placed.setTranslateY(placed.getTranslateY() + event.getY() - 16);
+
                     target.getChildren().add(placed);
                     success = true;
                 }
                 /* let the source know whether the string was successfully
                  * transferred and used */
+                GameModel.setMoney(GameModel.getMoney() - image.getPrice());
+                moneyLabel.setText("Money: " + GameModel.getMoney());
                 event.setDropCompleted(success);
 
                 event.consume();
             }
         });
-        source.setOnDragDone(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                /* the drag and drop gesture ended */
-                /* if the data was successfully moved, clear it */
-                if (event.getTransferMode() == TransferMode.MOVE) {
-                    source.setImage(new Image("images//plant.png"));
-                }
-                event.consume();
-            }
-        });
-        Scene scene = new Scene(border, width, height);
 
-        // Set the Style Sheet for the Scene
-        scene.getStylesheets().add("resources/SceneStyle.css");
-        return scene;
+//        source.setOnDragDone(new EventHandler<DragEvent>() {
+//            public void handle(DragEvent event) {
+//                /* the drag and drop gesture ended */
+//                /* if the data was successfully moved, clear it */
+//                if (event.getTransferMode() == TransferMode.MOVE) {
+//                    source.setImage(new Image("images//plant.png"));
+//                }
+//                event.consume();
+//            }
+//        });
     }
-    public void checkMoney(String s) {
+
+    public void checkDifficulty(String s) {
         if (s.equals("EASY")) {
             health = 300;
         } else if (s.equals("MEDIUM")) {

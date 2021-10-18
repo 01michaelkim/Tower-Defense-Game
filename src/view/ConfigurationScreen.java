@@ -17,7 +17,6 @@ public class ConfigurationScreen {
     private Button playButton;
     private ComboBox dropdown;
     private TextField nameLabel;
-    private GameModel gameModel;
     private static Label namePrompt;
     private Label warning;
     private Label title;
@@ -26,7 +25,6 @@ public class ConfigurationScreen {
         this.width = width;
         this.height = height;
         playButton = new Button("Play Game");
-        this.gameModel = new GameModel();
         this.dropdown = new ComboBox();
         this.nameLabel = new TextField();
     }

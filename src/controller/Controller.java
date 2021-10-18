@@ -54,9 +54,8 @@ public class Controller extends Application {
         nameLabel = screen.getNameLabel();
         playButton.setOnAction(e -> {
             if (screen.checkName(screen.getNameLabel().getText()) && screen.checkDrop()) {
-                System.out.println(screen.getDropdown().getValue());
-                gameModel.setDifficulty(dropdown.getValue().toString());
-                gameModel.setCharacterName(nameLabel.getText());
+                GameModel.setDifficulty(dropdown.getValue().toString());
+                GameModel.setCharacterName(nameLabel.getText());
                 initGameScreen();
             }
         });
@@ -68,7 +67,7 @@ public class Controller extends Application {
 
     private void initGameScreen() {
         GameScreen screen = new GameScreen(width + 50, height + 100);
-        screen.checkMoney(gameModel.getDifficulty());
+        screen.checkDifficulty(GameModel.getDifficulty());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
@@ -84,7 +83,6 @@ public class Controller extends Application {
     public Button getPlayButton() {
         return playButton;
     }
-
     public TextField getNameLabel() {
         return nameLabel;
     }

@@ -1,40 +1,40 @@
 package model;
 
 public class GameModel {
-    private String characterName;
-    private String difficulty;
-    private int money;
-    private int health;
+    private static String characterName;
+    private static String difficulty;
+    private static int money = 500;
+    private static int health;
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
+    public static void setDifficulty(String inputDifficulty) {
+        difficulty = inputDifficulty;
     }
 
-    public String getDifficulty() {
+    public static String getDifficulty() {
         return difficulty;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public static void setMoney(int inputMoney) {
+        money = inputMoney;
     }
 
-    public int getMoney() {
+    public static int getMoney() {
         return money;
     }
 
-    public void setHealth(int health) {
-        this.health = health;
+    public static void setHealth(int inputHealth) {
+        health = inputHealth;
     }
 
-    public int getHealth() {
+    public static int getHealth() {
         return health;
     }
 
-    public void setCharacterName(String characterName) {
-        this.characterName = characterName;
+    public static void setCharacterName(String inputCharacterName) {
+        characterName = inputCharacterName;
     }
 
-    public String getCharacterName() {
+    public static String getCharacterName() {
         return characterName;
     }
 }
