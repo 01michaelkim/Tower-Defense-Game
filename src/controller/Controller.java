@@ -1,11 +1,13 @@
 package controller;
 
+import entities.Tower;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.GameModel;
 import view.ConfigurationScreen;
@@ -22,6 +24,10 @@ public class Controller extends Application {
     private TextField nameLabel;
     private ComboBox dropdown;
 
+    private Tower tower1;
+    public Tower tower2;
+    public Tower tower3;
+    public Pane cent;
     @Override
     public void start(Stage primaryStage) throws Exception {
         mainWindow = primaryStage;
@@ -67,6 +73,12 @@ public class Controller extends Application {
 
     private void initGameScreen() {
         GameScreen screen = new GameScreen(width + 50, height + 100);
+        //get Towers
+        tower1 = screen.getTower(1);
+        tower2 = screen.getTower(2);
+        tower3 = screen.getTower(3);
+        cent = screen.getCenter();
+
         screen.checkDifficulty(GameModel.getDifficulty());
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
@@ -91,5 +103,14 @@ public class Controller extends Application {
     }
     public GameModel getGameModel() {
         return gameModel;
+    }
+    public Tower getTower1() {
+        return tower1;
+    }
+    public Tower getTower2() {
+        return tower2;
+    }
+    public Tower getTower3() {
+        return tower3;
     }
 }

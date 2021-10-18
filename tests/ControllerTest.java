@@ -1,6 +1,7 @@
 import controller.Controller;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import model.GameModel;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class ControllerTest extends ApplicationTest {
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         //Press Play
         clickOn(controller.getPlayButton());
-        verifyThat("Tower Defense", NodeMatchers.isNotNull());
+        verifyThat("Name: " + "M2 Player", NodeMatchers.isNotNull());
     }
 
     @Test
@@ -57,7 +58,7 @@ public class ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        Assert.assertEquals(controller.getGameModel().getDifficulty(), "EASY");
+        Assert.assertEquals(GameModel.getDifficulty(), "EASY");
     }
 
     @Test
@@ -68,7 +69,7 @@ public class ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        Assert.assertEquals(controller.getGameModel().getDifficulty(), "MEDIUM");
+        Assert.assertEquals(GameModel.getDifficulty(), "MEDIUM");
     }
 
     @Test
