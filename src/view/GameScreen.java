@@ -28,6 +28,10 @@ public class GameScreen {
     private String characterName;
     private Label moneyLabel;
     private ToolBar towerMenu;
+    private Tower plant;
+    private Tower notebook;
+    private Tower fish;
+    private Pane cent;
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -37,7 +41,7 @@ public class GameScreen {
     public Scene getScene() {
         // Set a border pane
         BorderPane border = new BorderPane();
-        Pane cent = new Pane();
+        cent = new Pane();
 
         // Set the background image and add to the center of the border pane
         Image map = new Image("images//map.png");
@@ -65,15 +69,15 @@ public class GameScreen {
         VBox towerShop = new VBox();
 
         // Plant
-        Plant plant = new Plant();
+        plant = new Plant();
         ImageView plantTower = plant.getImageView();
 
         // Notebook
-        Notebook notebook = new Notebook();
+        notebook = new Notebook();
         ImageView notebookTower = notebook.getImageView();
 
         // Fish
-        Fish fish = new Fish();
+        fish = new Fish();
         ImageView fishTower = fish.getImageView();
 
         towerShop.getChildren().addAll(plantTower, notebookTower, fishTower);
@@ -213,5 +217,18 @@ public class GameScreen {
         }
         return flag;
     }
-
+    public Tower getTower(int i) {
+        if (i == 1) {
+            return plant;
+        } else if (i == 2) {
+            return notebook;
+        } else if (i == 3) {
+            return fish;
+        } else {
+            return null;
+        }
+    }
+    public Pane getCenter() {
+        return cent;
+    }
 }
