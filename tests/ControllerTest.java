@@ -81,7 +81,7 @@ public class ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        Assert.assertEquals(controller.getGameModel().getDifficulty(), "HARD");
+        Assert.assertEquals(GameModel.getDifficulty(), "HARD");
     }
 
     @Test
