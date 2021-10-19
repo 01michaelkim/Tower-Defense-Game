@@ -36,15 +36,18 @@ public class GameScreen {
     public GameScreen(int width, int height) {
         this.width = width;
         this.height = height;
+        plant = new Plant();
+        notebook = new Notebook();
+        fish = new Fish();
+        cent = new Pane();
     }
 
     public Scene getScene() {
         // Set a border pane
         BorderPane border = new BorderPane();
-        cent = new Pane();
 
         // Set the background image and add to the center of the border pane
-        Image map = new Image("images//map.png");
+        Image map = new Image("images//map2.png");
         BackgroundImage backImage = new BackgroundImage(map,
                 BackgroundRepeat.NO_REPEAT,
                 BackgroundRepeat.NO_REPEAT,
@@ -69,23 +72,20 @@ public class GameScreen {
         VBox towerShop = new VBox();
 
         // Plant
-        plant = new Plant();
         ImageView plantTower = plant.getImageView();
 
         // Notebook
-        notebook = new Notebook();
         ImageView notebookTower = notebook.getImageView();
 
         // Fish
-        fish = new Fish();
         ImageView fishTower = fish.getImageView();
 
         towerShop.getChildren().addAll(plantTower, notebookTower, fishTower);
         border.setRight(towerShop);
 
-        setAction(plant, cent);
-        setAction(notebook, cent);
-        setAction(fish, cent);
+        //dragDrop(plant, cent);
+        //dragDrop(notebook, cent);
+        //dragDrop(fish, cent);
 
         Tooltip plantToolTip = new Tooltip(plant.getDescription());
         Tooltip.install(plantTower, plantToolTip);
@@ -103,76 +103,6 @@ public class GameScreen {
         return scene;
     }
 
-    public void setAction(Tower image, Pane target) {
-        ImageView source = image.getImageView();
-        source.setOnDragDetected(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                if (image.getPrice() <= GameModel.getMoney()) {
-                    /* drag was detected, start a drag-and-drop gesture*/
-                    /* allow any transfer mode */
-                    Dragboard db = source.startDragAndDrop(TransferMode.ANY);
-
-                    /* Put a image on a dragboard */
-                    ClipboardContent content = new ClipboardContent();
-                    content.putImage(source.getImage());
-                    db.setContent(content);
-                }
-                event.consume();
-            }
-        });
-
-        target.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                /* data is dragged over the target */
-                /* accept it only if it is not dragged from the same node
-                 * and if it has a string data */
-                if (event.getGestureSource() != target &&
-                        event.getDragboard().hasImage() && !isPath(event.getSceneX(), event.getSceneY())) {
-                    /* allow for both copying and moving, whatever user chooses */
-                    event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-                }
-
-                event.consume();
-            }
-        });
-
-        target.setOnDragDropped(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                /* data dropped */
-                /* if there is a string data on dragboard, read it and use it */
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasImage()) {
-                    ImageView placed = new ImageView(db.getImage());
-                    //Translate translate = new Translate();
-                    //placed.relocate(event.getSceneX(), event.getSceneY());
-                    placed.setTranslateX(placed.getTranslateX() + event.getX() - 16);
-                    placed.setTranslateY(placed.getTranslateY() + event.getY() - 16);
-
-                    target.getChildren().add(placed);
-                    success = true;
-                }
-                /* let the source know whether the string was successfully
-                 * transferred and used */
-                GameModel.setMoney(GameModel.getMoney() - image.getPrice());
-                moneyLabel.setText("Money: " + GameModel.getMoney());
-                event.setDropCompleted(success);
-
-                event.consume();
-            }
-        });
-
-//        source.setOnDragDone(new EventHandler<DragEvent>() {
-//            public void handle(DragEvent event) {
-//                /* the drag and drop gesture ended */
-//                /* if the data was successfully moved, clear it */
-//                if (event.getTransferMode() == TransferMode.MOVE) {
-//                    source.setImage(new Image("images//plant.png"));
-//                }
-//                event.consume();
-//            }
-//        });
-    }
 
     public void checkDifficulty(String s) {
         if (s.equals("EASY")) {
@@ -228,7 +158,14 @@ public class GameScreen {
             return null;
         }
     }
-    public Pane getCenter() {
+
+    public Pane getCenterPane() {
         return cent;
+    }
+    public Label getMoneyLabel() {
+        return moneyLabel;
+    }
+    public void setMoneyLabel(String s) {
+        moneyLabel.setText(s);
     }
 }
