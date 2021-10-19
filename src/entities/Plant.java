@@ -21,7 +21,7 @@ public class Plant extends Tower {
         if (GameModel.getDifficulty() == "MEDIUM") {
             price = 100;
         }
-        if (GameModel.getDifficulty() == "HARD"){
+        if (GameModel.getDifficulty() == "HARD") {
             price = 150;
         }
         description = "Plant Tower\n Cost: " + price;

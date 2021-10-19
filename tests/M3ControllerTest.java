@@ -1,6 +1,4 @@
 import controller.Controller;
-import javafx.geometry.Point2D;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
@@ -10,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
-import org.testfx.robot.Motion;
-import org.testfx.service.query.NodeQuery;
 
 import static org.testfx.api.FxAssert.verifyThat;
 public class M3ControllerTest extends ApplicationTest {
@@ -52,14 +48,14 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        drag(1240,200, MouseButton.PRIMARY).dropTo(1035, 225);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNull());
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(1035, 225);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNull());
     }
     @Test
     public void plantTowerNotOnPath() {
         getToGameScreen();
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 350);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNotNull());
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 350);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNotNull());
     }
     @Test
     public void notebookTowerOnPath() {
@@ -67,14 +63,14 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        drag(1240,250, MouseButton.PRIMARY).dropTo(1035, 415);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNull());
+        drag(1240, 250, MouseButton.PRIMARY).dropTo(1035, 415);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNull());
     }
     @Test
     public void notebookTowerNotOnPath() {
         getToGameScreen();
-        drag(1240,250, MouseButton.PRIMARY).dropTo(1000, 495);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNotNull());
+        drag(1240, 250, MouseButton.PRIMARY).dropTo(1000, 495);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNotNull());
     }
     @Test
     public void fishTowerOnPath() {
@@ -82,15 +78,15 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.DOWN).release(KeyCode.DOWN);
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
-        drag(1240,300, MouseButton.PRIMARY).dropTo(795, 400);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNull());
+        drag(1240, 300, MouseButton.PRIMARY).dropTo(795, 400);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNull());
     }
     @Test
     public void fishTowerNotOnPath() {
         getToGameScreen();
 
-        drag(1240,300, MouseButton.PRIMARY).dropTo(865, 350);
-        verifyThat(controller.getPlaced(),NodeMatchers.isNotNull());
+        drag(1240, 300, MouseButton.PRIMARY).dropTo(865, 350);
+        verifyThat(controller.getPlaced(), NodeMatchers.isNotNull());
     }
     @Test
     public void moneyTestEasy() {
@@ -99,7 +95,7 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
         //drag(525, 25, MouseButton.PRIMARY).dropTo(150, 150);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 350);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 350);
         Assert.assertEquals(450, GameModel.getMoney());
     }
     @Test
@@ -110,7 +106,7 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
         //drag(525, 25, MouseButton.PRIMARY).dropTo(150, 150);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 350);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 350);
         Assert.assertEquals(400, GameModel.getMoney());
     }
     @Test
@@ -122,7 +118,7 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
         //drag(525, 25, MouseButton.PRIMARY).dropTo(150, 150);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 350);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 350);
         Assert.assertEquals(350, GameModel.getMoney());
     }
     @Test
@@ -134,10 +130,10 @@ public class M3ControllerTest extends ApplicationTest {
         press(KeyCode.ENTER).release(KeyCode.ENTER);
         clickOn(controller.getPlayButton());
         //drag(525, 25, MouseButton.PRIMARY).dropTo(150, 150);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(820, 350);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 350);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(865, 320);
-        drag(1240,200, MouseButton.PRIMARY).dropTo(840, 310);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(820, 350);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 350);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(865, 320);
+        drag(1240, 200, MouseButton.PRIMARY).dropTo(840, 310);
         Assert.assertEquals(50, GameModel.getMoney());
 
     }
