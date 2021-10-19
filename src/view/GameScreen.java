@@ -1,11 +1,10 @@
 package view;
 
-//import entities.Tower1;
+
 import entities.Fish;
 import entities.Notebook;
 import entities.Plant;
 import entities.Tower;
-import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,11 +12,7 @@ import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Translate;
 import model.GameModel;
 
 

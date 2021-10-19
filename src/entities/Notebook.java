@@ -21,7 +21,7 @@ public class Notebook extends Tower {
         if (GameModel.getDifficulty() == "MEDIUM") {
             price = 100;
         }
-        if (GameModel.getDifficulty() == "HARD"){
+        if (GameModel.getDifficulty() == "HARD") {
             price = 150;
         }
         description = "Notebook Tower\n Cost: " + price;
