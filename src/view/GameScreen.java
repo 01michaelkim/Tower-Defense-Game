@@ -5,13 +5,6 @@ import entities.Fish;
 import entities.Notebook;
 import entities.Plant;
 import entities.Tower;
-import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
-import javafx.animation.PathTransition;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
@@ -19,14 +12,10 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.util.Duration;
 import model.GameModel;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
 
 
 public class GameScreen {
@@ -45,11 +34,6 @@ public class GameScreen {
     private Image startButtonHovered = new Image("images//startButton2.png");
     private ImageView startButton;
     private BorderPane border;
-    private enum EntityType {
-        PLANT,
-        NOTEBOOK,
-        FISH
-    }
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -77,51 +61,6 @@ public class GameScreen {
         border.setCenter(cent);
         //combat button
         HBox button = new HBox(startButton);
-        //button.setAlignment(Pos.BOTTOM_RIGHT);
-        // Set player stats and add to the bottom of the border pane
-
-//        Path path = createPath();
-//        startButton.setOnMouseClicked(e -> {
-//            ArrayList<Circle> enemyList = new ArrayList<>();
-//            for (int i = 0; i < 10; i++) {
-//                Circle circle = new Circle(15);
-//                enemyList.add(circle);
-//            }
-//
-//            Rectangle brain = new Rectangle(50,50);
-//            brain.setX(450);
-//            brain.setY(400);
-//
-//            for (Circle element: enemyList) {
-//                border.getChildren().add(element);
-//                PathTransition transition = new PathTransition();
-//                transition.setDuration(Duration.seconds(25));
-//                transition.setPath(path);
-//                transition.setNode(element);
-//                transition.play();
-//                AnimationTimer collisionTimer = new AnimationTimer() {
-//                    @Override
-//                    public void handle(long now) {
-//                        if (element.getBoundsInParent().intersects(brain.getBoundsInParent())) {
-//                            if (element.isVisible()) {
-//                                element.setVisible(false);
-//                                GameModel.setHealth(GameModel.getHealth() - 50);
-//                                setHealthLabel("Health: " + GameModel.getHealth());
-//                                if (GameModel.getHealth() == 0) {
-//
-//                                }
-//                            }
-//                        }
-//                    }
-//                };
-//
-//                collisionTimer.start();
-//                delaySpawn(500);
-//            }
-//            startButton.setVisible(false);
-//        });
-//        startButton.setOnMouseEntered(e -> toggleStartButton());
-//        startButton.setOnMouseExited(e -> toggleStartButton());
 
         VBox playerStats = new VBox();
         healthLabel = new Label("Health: " + GameModel.getHealth());
@@ -129,13 +68,11 @@ public class GameScreen {
         characterName = ConfigurationScreen.getNamePrompt().getText();
         Label nameLabel = new Label(characterName);
         playerStats.getChildren().addAll(healthLabel, moneyLabel, nameLabel);
-        //playerStats.setAlignment(Pos.BOTTOM_LEFT);
-        //bringtogether
-        BorderPane bringtogether = new BorderPane();
-        bringtogether.setLeft(playerStats);
-        bringtogether.setRight(button);
-        bringtogether.setPadding(new Insets(0, 25, 25, 25));
-        border.setBottom(bringtogether);
+        BorderPane bringTogether = new BorderPane();
+        bringTogether.setLeft(playerStats);
+        bringTogether.setRight(button);
+        bringTogether.setPadding(new Insets(0, 25, 25, 25));
+        border.setBottom(bringTogether);
 
 
         // Create Tower Menu

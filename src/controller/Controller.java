@@ -14,7 +14,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -98,7 +97,7 @@ public class Controller extends Application {
                 enemyList.add(enemy.getImageView());
             }
 
-            Rectangle brain = new Rectangle(50,50);
+            Rectangle brain = new Rectangle(50, 50);
             brain.setX(450);
             brain.setY(400);
 
