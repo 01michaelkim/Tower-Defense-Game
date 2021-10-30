@@ -5,6 +5,12 @@ import entities.Fish;
 import entities.Notebook;
 import entities.Plant;
 import entities.Tower;
+import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -13,9 +19,14 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
+import javafx.util.Duration;
 import model.GameModel;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 
 public class GameScreen {
@@ -23,6 +34,7 @@ public class GameScreen {
     private int height;
     private int health = 100;
     private String characterName;
+    private Label healthLabel;
     private Label moneyLabel;
     private ToolBar towerMenu;
     private Tower plant;
@@ -32,6 +44,12 @@ public class GameScreen {
     private Image startButtonDefault = new Image("images//startButton1.png");
     private Image startButtonHovered = new Image("images//startButton2.png");
     private ImageView startButton;
+    private BorderPane border;
+    private enum EntityType {
+        PLANT,
+        NOTEBOOK,
+        FISH
+    }
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -45,7 +63,7 @@ public class GameScreen {
 
     public Scene getScene() {
         // Set a border pane
-        BorderPane border = new BorderPane();
+        border = new BorderPane();
 
         // Set the background image and add to the center of the border pane
         Image map = new Image("images//map2.png");
@@ -61,8 +79,52 @@ public class GameScreen {
         HBox button = new HBox(startButton);
         //button.setAlignment(Pos.BOTTOM_RIGHT);
         // Set player stats and add to the bottom of the border pane
+
+//        Path path = createPath();
+//        startButton.setOnMouseClicked(e -> {
+//            ArrayList<Circle> enemyList = new ArrayList<>();
+//            for (int i = 0; i < 10; i++) {
+//                Circle circle = new Circle(15);
+//                enemyList.add(circle);
+//            }
+//
+//            Rectangle brain = new Rectangle(50,50);
+//            brain.setX(450);
+//            brain.setY(400);
+//
+//            for (Circle element: enemyList) {
+//                border.getChildren().add(element);
+//                PathTransition transition = new PathTransition();
+//                transition.setDuration(Duration.seconds(25));
+//                transition.setPath(path);
+//                transition.setNode(element);
+//                transition.play();
+//                AnimationTimer collisionTimer = new AnimationTimer() {
+//                    @Override
+//                    public void handle(long now) {
+//                        if (element.getBoundsInParent().intersects(brain.getBoundsInParent())) {
+//                            if (element.isVisible()) {
+//                                element.setVisible(false);
+//                                GameModel.setHealth(GameModel.getHealth() - 50);
+//                                setHealthLabel("Health: " + GameModel.getHealth());
+//                                if (GameModel.getHealth() == 0) {
+//
+//                                }
+//                            }
+//                        }
+//                    }
+//                };
+//
+//                collisionTimer.start();
+//                delaySpawn(500);
+//            }
+//            startButton.setVisible(false);
+//        });
+//        startButton.setOnMouseEntered(e -> toggleStartButton());
+//        startButton.setOnMouseExited(e -> toggleStartButton());
+
         VBox playerStats = new VBox();
-        Label healthLabel = new Label("Health: " + health);
+        healthLabel = new Label("Health: " + GameModel.getHealth());
         moneyLabel = new Label("Money: " + GameModel.getMoney());
         characterName = ConfigurationScreen.getNamePrompt().getText();
         Label nameLabel = new Label(characterName);
@@ -124,11 +186,11 @@ public class GameScreen {
     }
     public void checkDifficulty(String s) {
         if (s.equals("EASY")) {
-            health = 300;
+            GameModel.setHealth(300);
         } else if (s.equals("MEDIUM")) {
-            health = 200;
+            GameModel.setHealth(200);
         } else if (s.equals("HARD")) {
-            health = 100;
+            GameModel.setHealth(100);
         }
     }
 
@@ -186,4 +248,39 @@ public class GameScreen {
     public void setMoneyLabel(String s) {
         moneyLabel.setText(s);
     }
+
+
+    public Label getHealthLabel() {
+        return healthLabel;
+    }
+
+    public void setHealthLabel(String s) {
+        healthLabel.setText(s);
+    }
+
+    public Path createPath() {
+        Path path = new Path();
+        MoveTo spawn = new MoveTo(-800, 40.0);
+        LineTo line1 = new LineTo(360.0, 40.0);
+        LineTo line2 = new LineTo(360.0, 240.0);
+        LineTo line3 = new LineTo(40.0, 240.0);
+        LineTo line4 = new LineTo(40.0, 400.0);
+        LineTo line5 = new LineTo(450.0, 400.0);
+        path.getElements().addAll(spawn, line1, line2, line3, line4, line5);
+        return path;
+    }
+
+    // Delay the spawning of
+    public void delaySpawn(long delay) {
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public BorderPane getBorder() {
+        return border;
+    }
 }
+

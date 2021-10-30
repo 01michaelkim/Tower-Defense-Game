@@ -1,6 +1,8 @@
 package controller;
 
 import entities.Tower;
+import javafx.animation.AnimationTimer;
+import javafx.animation.PathTransition;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -11,11 +13,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.GameModel;
 import view.ConfigurationScreen;
 import view.GameScreen;
 import view.WelcomeScreen;
+
+import java.util.ArrayList;
 
 public class Controller extends Application {
     private Stage mainWindow;
@@ -79,6 +87,50 @@ public class Controller extends Application {
 
         Label moneyLabel = screen.getMoneyLabel();
 
+        Path path = screen.createPath();
+        startButton = screen.getStartButton();
+        startButton.setOnMouseClicked(e -> {
+            ArrayList<Circle> enemyList = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                Circle circle = new Circle(15);
+                enemyList.add(circle);
+            }
+
+            Rectangle brain = new Rectangle(50,50);
+            brain.setX(450);
+            brain.setY(400);
+
+            for (Circle element: enemyList) {
+                screen.getBorder().getChildren().add(element);
+                PathTransition transition = new PathTransition();
+                transition.setDuration(Duration.seconds(25));
+                transition.setPath(path);
+                transition.setNode(element);
+                transition.play();
+                AnimationTimer collisionTimer = new AnimationTimer() {
+                    @Override
+                    public void handle(long now) {
+                        if (element.getBoundsInParent().intersects(brain.getBoundsInParent())) {
+                            if (element.isVisible()) {
+                                element.setVisible(false);
+                                GameModel.setHealth(GameModel.getHealth() - 50);
+                                screen.setHealthLabel("Health: " + GameModel.getHealth());
+                                if (GameModel.getHealth() == 0) {
+                                    mainWindow.close();
+                                }
+                            }
+                        }
+                    }
+                };
+
+                collisionTimer.start();
+                screen.delaySpawn(500);
+            }
+            startButton.setVisible(false);
+        });
+        startButton.setOnMouseEntered(e -> screen.toggleStartButton());
+        startButton.setOnMouseExited(e -> screen.toggleStartButton());
+
         dragDrop(plantTower, screen);
         dragDrop(notebookTower, screen);
         dragDrop(fishTower, screen);
@@ -87,6 +139,7 @@ public class Controller extends Application {
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
         mainWindow.show();
+
 
     }
 
