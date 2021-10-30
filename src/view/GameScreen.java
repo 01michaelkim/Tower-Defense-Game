@@ -14,6 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import model.GameModel;
+import javafx.scene.layout.BorderPane;
+import javafx.geometry.Insets;
 
 
 public class GameScreen {
@@ -27,6 +29,9 @@ public class GameScreen {
     private Tower notebook;
     private Tower fish;
     private Pane cent;
+    private Image startButtonDefault = new Image("images//startButton1.png");
+    private Image startButtonHovered = new Image("images//startButton2.png");
+    private ImageView startButton;
 
     public GameScreen(int width, int height) {
         this.width = width;
@@ -35,6 +40,7 @@ public class GameScreen {
         notebook = new Notebook();
         fish = new Fish();
         cent = new Pane();
+        this.startButton = new ImageView(startButtonDefault);
     }
 
     public Scene getScene() {
@@ -51,7 +57,9 @@ public class GameScreen {
         Background background = new Background(backImage);
         cent.setBackground(background);
         border.setCenter(cent);
-
+        //combat button
+        HBox button = new HBox(startButton);
+        //button.setAlignment(Pos.BOTTOM_RIGHT);
         // Set player stats and add to the bottom of the border pane
         VBox playerStats = new VBox();
         Label healthLabel = new Label("Health: " + health);
@@ -59,8 +67,13 @@ public class GameScreen {
         characterName = ConfigurationScreen.getNamePrompt().getText();
         Label nameLabel = new Label(characterName);
         playerStats.getChildren().addAll(healthLabel, moneyLabel, nameLabel);
-        playerStats.setAlignment(Pos.CENTER_LEFT);
-        border.setBottom(playerStats);
+        //playerStats.setAlignment(Pos.BOTTOM_LEFT);
+        //bringtogether
+        BorderPane bringtogether = new BorderPane();
+        bringtogether.setLeft(playerStats);
+        bringtogether.setRight(button);
+        bringtogether.setPadding(new Insets(0, 25, 25, 25));
+        border.setBottom(bringtogether);
 
 
         // Create Tower Menu
@@ -97,8 +110,18 @@ public class GameScreen {
         scene.getStylesheets().add("resources/SceneStyle.css");
         return scene;
     }
+    //code reuse from welcome screen (for combat button)
+    public ImageView getStartButton() {
+        return startButton;
+    }
 
-
+    public void toggleStartButton() {
+        if (startButton.getImage().equals(startButtonDefault)) {
+            startButton.setImage(startButtonHovered);
+        } else {
+            startButton.setImage(startButtonDefault);
+        }
+    }
     public void checkDifficulty(String s) {
         if (s.equals("EASY")) {
             health = 300;
