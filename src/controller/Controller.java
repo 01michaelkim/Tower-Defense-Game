@@ -1,5 +1,6 @@
 package controller;
 
+import entities.Overdude;
 import entities.Tower;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PathTransition;
@@ -22,6 +23,7 @@ import model.GameModel;
 import view.ConfigurationScreen;
 import view.GameScreen;
 import view.WelcomeScreen;
+import view.GameOverScreen;
 
 import java.util.ArrayList;
 
@@ -90,17 +92,17 @@ public class Controller extends Application {
         Path path = screen.createPath();
         startButton = screen.getStartButton();
         startButton.setOnMouseClicked(e -> {
-            ArrayList<Circle> enemyList = new ArrayList<>();
+            ArrayList<ImageView> enemyList = new ArrayList<>();
             for (int i = 0; i < 10; i++) {
-                Circle circle = new Circle(15);
-                enemyList.add(circle);
+                Overdude enemy = new Overdude();
+                enemyList.add(enemy.getImageView());
             }
 
             Rectangle brain = new Rectangle(50,50);
             brain.setX(450);
             brain.setY(400);
 
-            for (Circle element: enemyList) {
+            for (ImageView element: enemyList) {
                 screen.getBorder().getChildren().add(element);
                 PathTransition transition = new PathTransition();
                 transition.setDuration(Duration.seconds(25));
@@ -116,7 +118,7 @@ public class Controller extends Application {
                                 GameModel.setHealth(GameModel.getHealth() - 50);
                                 screen.setHealthLabel("Health: " + GameModel.getHealth());
                                 if (GameModel.getHealth() == 0) {
-                                    mainWindow.close();
+                                    initGameOverScreen();
                                 }
                             }
                         }
@@ -142,6 +144,24 @@ public class Controller extends Application {
 
 
     }
+    private void initGameOverScreen() {
+        GameOverScreen screen = new GameOverScreen(width, height);
+        // Create the restart button for the Game Over Screen
+        startButton = screen.getRestartButton();
+        startButton.setOnMouseClicked(e -> initWelcomeScreen());
+        startButton.setOnMouseEntered(e -> screen.toggleRestartButton());
+        startButton.setOnMouseExited(e -> screen.toggleRestartButton());
+
+        //Create the exit button for the GameOver Screen
+        startButton = screen.getExitButton();
+        startButton.setOnMouseClicked(e -> mainWindow.close());
+        startButton.setOnMouseEntered(e -> screen.toggleExitButton());
+        startButton.setOnMouseExited(e -> screen.toggleExitButton());
+
+        Scene scene = screen.getScene();
+        mainWindow.setScene(scene);
+        mainWindow.show();
+    }
 
     public static void main(String[] args) {
         launch(args);
@@ -162,6 +182,7 @@ public class Controller extends Application {
     public ImageView getPlaced() {
         return placed;
     }
+
     private void dragDrop(Tower tower, GameScreen screen) {
         ImageView source = tower.getImageView();
         Pane target = screen.getCenterPane();
