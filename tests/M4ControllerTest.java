@@ -1,6 +1,5 @@
 import controller.Controller;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
 import model.GameModel;
 import org.junit.Assert;
@@ -9,7 +8,7 @@ import org.junit.Test;
 import org.testfx.framework.junit.ApplicationTest;
 import org.testfx.matcher.base.NodeMatchers;
 import static org.testfx.api.FxAssert.verifyThat;
-public class M4ControllerTest extends ApplicationTest{
+public class M4ControllerTest extends ApplicationTest {
     private Controller controller;
     @Override
     public void start(Stage primaryStage) throws Exception {
