@@ -32,6 +32,8 @@ public class Controller extends Application {
     private final int width = 500;
     private final int height = 500;
     private ImageView startButton;
+    private ImageView restartButton;
+    private ImageView exitButton;
     private Button playButton;
     private TextField nameLabel;
     private ComboBox dropdown;
@@ -47,7 +49,6 @@ public class Controller extends Application {
 
     private void initWelcomeScreen() {
         WelcomeScreen screen = new WelcomeScreen(width, height);
-
         // Create the start button for the welcome screen
         startButton = screen.getStartButton();
         startButton.setOnMouseClicked(e -> initConfigurationScreen());
@@ -82,6 +83,7 @@ public class Controller extends Application {
 
     private void initGameScreen() {
         GameScreen screen = new GameScreen(width + 50, height + 100);
+        GameModel.reset();
         Tower plantTower = screen.getTower(1);
         Tower notebookTower = screen.getTower(2);
         Tower fishTower = screen.getTower(3);
@@ -146,16 +148,18 @@ public class Controller extends Application {
     private void initGameOverScreen() {
         GameOverScreen screen = new GameOverScreen(width, height);
         // Create the restart button for the Game Over Screen
-        startButton = screen.getRestartButton();
-        startButton.setOnMouseClicked(e -> initWelcomeScreen());
-        startButton.setOnMouseEntered(e -> screen.toggleRestartButton());
-        startButton.setOnMouseExited(e -> screen.toggleRestartButton());
+        restartButton = screen.getRestartButton();
+        restartButton.setOnMouseClicked(e -> initWelcomeScreen());
+        restartButton.setOnMouseEntered(e -> screen.toggleRestartButton());
+        restartButton.setOnMouseExited(e -> screen.toggleRestartButton());
 
         //Create the exit button for the GameOver Screen
-        startButton = screen.getExitButton();
-        startButton.setOnMouseClicked(e -> mainWindow.close());
-        startButton.setOnMouseEntered(e -> screen.toggleExitButton());
-        startButton.setOnMouseExited(e -> screen.toggleExitButton());
+        exitButton = screen.getExitButton();
+        exitButton.setOnMouseClicked(e -> {
+            GameModel.setGameClosed();
+            mainWindow.close(); });
+        exitButton.setOnMouseEntered(e -> screen.toggleExitButton());
+        exitButton.setOnMouseExited(e -> screen.toggleExitButton());
 
         Scene scene = screen.getScene();
         mainWindow.setScene(scene);
@@ -168,6 +172,12 @@ public class Controller extends Application {
 
     public ImageView getStart() {
         return startButton;
+    }
+    public ImageView getRestart() {
+        return restartButton;
+    }
+    public ImageView getExit() {
+        return exitButton;
     }
     public Button getPlayButton() {
         return playButton;

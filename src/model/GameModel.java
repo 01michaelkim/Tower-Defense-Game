@@ -5,6 +5,7 @@ public class GameModel {
     private static String difficulty;
     private static int money = 500;
     private static int health;
+    private static boolean gameClosed = false;
 
     public static void setDifficulty(String inputDifficulty) {
         difficulty = inputDifficulty;
@@ -37,4 +38,17 @@ public class GameModel {
     public static String getCharacterName() {
         return characterName;
     }
+
+    public static void setGameClosed() {
+        gameClosed = true;
+    }
+
+    public static boolean getGameClosed() {
+        return gameClosed;
+    }
+
+    public static void reset() {
+        money = 500;
+    }
+
 }
