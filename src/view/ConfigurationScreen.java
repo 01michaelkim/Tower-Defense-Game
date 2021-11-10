@@ -1,8 +1,8 @@
 package view;
 
+import controller.ConfigurationScreenController;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -10,94 +10,83 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 
-public class ConfigurationScreen {
-    private int width;
-    private int height;
+public class ConfigurationScreen extends ProgramScreen {
+    private final int width = 500;
+    private final int height = 250;
     private Button playButton;
     private ComboBox dropdown;
     private TextField nameLabel;
     private static Label namePrompt;
-    private Label warning;
-    private Label title;
+    private VBox configBox = new VBox();
+    private ConfigurationScreenController controller;
 
-    public ConfigurationScreen(int width, int height) {
-        this.width = width;
-        this.height = height;
-        playButton = new Button("Play Game");
-        this.dropdown = new ComboBox();
-        this.nameLabel = new TextField();
+    public ConfigurationScreen() {
+        this.InitStage(this.width, this.height);
+        this.InitStageElements();
+        this.InitController();
     }
 
-    public Scene getScene() {
-        // Create a HBOx to store the title for the Configuration screen and center the box
-        title = new Label("Set Game Configurations");
+    @Override
+    public void InitController() {
+        this.controller = new ConfigurationScreenController(this);
+        this.StartController();
+    }
+
+    public void StartController() {
+        this.currentStage.show();
+        this.controller.playButtonHandler();
+    }
+
+    public void InitStageElements() {
+        this.createTitle();
+        this.createNameInput();
+        this.createDropdownMenu();
+        this.createPlayButtonPane();
+        this.createStage();
+    }
+
+    public void createTitle() {
+        Label title = new Label("Set Game Configurations!");
         HBox titleBox = new HBox(title);
         titleBox.setAlignment(Pos.TOP_CENTER);
+        this.configBox.getChildren().add(titleBox);
+    }
 
-        // Create a HBox to request player name and provide a textfield for input and center the box
+    public void createNameInput() {
         namePrompt = new Label("Enter your name:");
+        nameLabel = new TextField();
         HBox nameBox = new HBox(namePrompt, nameLabel);
         nameBox.setSpacing(10);
         nameBox.setAlignment(Pos.CENTER);
+        this.configBox.getChildren().add(nameBox);
+    }
 
-        // Create a dropdown menu for the user to select a difficulty and center the HBox
+    public void createDropdownMenu() {
+        dropdown = new ComboBox();
         Label label = new Label("Select the Difficulty:");
         dropdown.getItems().addAll(
-                "EASY",
+          "EASY",
                 "MEDIUM",
                 "HARD"
         );
         dropdown.setPromptText("Select Level");
-        warning = new Label("");
-        VBox difficultyBox = new VBox(label, dropdown, warning);
+        VBox difficultyBox = new VBox(label, dropdown);
         difficultyBox.setAlignment(Pos.CENTER);
+        this.configBox.getChildren().add(difficultyBox);
+    }
 
-        // Create a play button
+    public void createPlayButtonPane() {
+        playButton = new Button("Play Game");
         HBox playBox = new HBox(playButton);
         playBox.setAlignment(Pos.CENTER);
-
-        //Updates name prompt to show the name that was entered in, and checks if it is valid
-        nameLabel.setOnAction(e -> {
-            checkName(nameLabel.getText());
-        });
-
-        // Create a Root Pane to add all the panes
-        VBox vbox = new VBox(titleBox, nameBox, difficultyBox, playBox);
-        vbox.setAlignment(Pos.CENTER);
-        vbox.setSpacing(25);
-        vbox.setPadding(new Insets(5, 5, 5, 5));
-        Scene scene = new Scene(vbox, width, height);
-
-        // Set the Style Sheet for the Scene
-        scene.getStylesheets().add("resources/SceneStyle.css");
-        return scene;
+        this.configBox.getChildren().add(playBox);
     }
 
-    //helper function that checks the inputted name string
-    public boolean checkName(String s) {
-        if (s.equals(null)) {
-            namePrompt.setText("You MUST enter a name!");
-            return false;
-        } else if (s.isEmpty()) {
-            namePrompt.setText("You MUST enter a name that isn't empty!");
-            return false;
-        } else if (s.trim().length() == 0) {
-            namePrompt.setText("You MUST enter a name with valid characters!");
-            return false;
-        } else {
-            namePrompt.setText("Name: " + nameLabel.getText());
-            return true;
-        }
-    }
-
-    public boolean checkDrop() {
-        if (dropdown.getValue() != null) {
-            return true;
-        } else {
-            warning.setText("Please Select a Difficulty");
-            return false;
-        }
-
+    public void createStage() {
+        this.configBox.setAlignment(Pos.CENTER);
+        this.configBox.setSpacing(25);
+        this.configBox.setPadding(new Insets(5, 5, 5, 5));
+        this.pane.setCenter(configBox);
     }
 
     public Button getPlayButton() {
@@ -112,20 +101,7 @@ public class ConfigurationScreen {
         return nameLabel;
     }
 
-    //function used to import the name to the GameScreen
     public static Label getNamePrompt() {
         return namePrompt;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public Label getTitle() {
-        return title;
     }
 }
