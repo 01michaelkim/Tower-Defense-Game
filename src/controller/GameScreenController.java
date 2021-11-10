@@ -16,8 +16,6 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import model.GameModel;
-import model.Player;
 import view.GameOverScreen;
 import view.GameScreen;
 
@@ -50,7 +48,6 @@ public class GameScreenController extends ProgramScreenController {
 
     public void resetGameParameters() {
         this.getPlayer().reset();
-        this.setHealthForDifficulty(GameModel.getDifficulty());
     }
 
     public void startButtonHandler(GameScreen gameScreen) {
@@ -86,8 +83,10 @@ public class GameScreenController extends ProgramScreenController {
                         if (element.getBoundsInParent().intersects(brain.getBoundsInParent())) {
                             if (element.isVisible()) {
                                 element.setVisible(false);
+
                                 getPlayer().setHealth(getPlayer().getHealth() - 50);
                                 gameScreen.setHealthLabel("Health: " + getPlayer().getHealth());
+
                                 if (getPlayer().getHealth() == 0) {
                                     setNextStage(new GameOverScreen());
                                     currentStage.close();
@@ -162,16 +161,6 @@ public class GameScreenController extends ProgramScreenController {
             Thread.sleep(delay);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-    }
-
-    public void setHealthForDifficulty(String difficulty) {
-        if (difficulty.equals("EASY")) {
-            this.getPlayer().setHealth(300);
-        } else if (difficulty.equals("MEDIUM")) {
-            this.getPlayer().setHealth(200);
-        } else if (difficulty.equals("HARD")) {
-            this.getPlayer().setHealth(100);
         }
     }
 

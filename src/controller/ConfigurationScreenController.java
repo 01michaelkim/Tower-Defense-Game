@@ -56,10 +56,10 @@ public class ConfigurationScreenController extends ProgramScreenController {
     public void playButtonHandler() {
         this.playButton.setOnAction(e -> {
             if (this.checkName(this.nameLabel) && this.checkDifficulty()) {
-                Player player = new Player();
-                player.setCharacterName(nameLabel.getText());
-
                 GameModel.setDifficulty(dropdown.getValue().toString());
+
+                Player player = new Player(GameModel.getDifficulty());
+                player.setCharacterName(nameLabel.getText());
 
                 setNextStage(new GameScreen(player));
                 currentStage.close();

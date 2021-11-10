@@ -46,9 +46,11 @@ public class GameScreen extends ProgramScreen {
     public void StartController() {
         this.currentStage.show();
         this.controller.resetGameParameters();
-        this.controller.dragDropHandler(this, towers.get("Plant"));
-        this.controller.dragDropHandler(this, towers.get("Notebook"));
-        this.controller.dragDropHandler(this, towers.get("Fish"));
+
+        for (String key: towers.keySet()) {
+            this.controller.dragDropHandler(this, towers.get(key));
+        }
+
         this.controller.startButtonHandler(this);
     }
 
