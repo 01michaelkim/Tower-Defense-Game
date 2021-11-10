@@ -5,16 +5,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import model.Player;
 
-interface ProgramScreenInterface {
-    public Scene getScene();
-
-    public Stage getStage();
-
-    public void InitStage(int width, int height);
-
-    public void InitController();
-}
-
 public class ProgramScreen implements ProgramScreenInterface {
     protected BorderPane pane;
     protected Scene currentScene;
@@ -25,7 +15,7 @@ public class ProgramScreen implements ProgramScreenInterface {
         this.player = null;
     }
 
-    public void InitStage(int width, int height) {
+    public void initStage(int width, int height) {
         this.pane = new BorderPane();
         this.currentScene = new Scene(this.pane, width, height);
         this.currentScene.getStylesheets().add("resources/SceneStyle.css");
@@ -33,7 +23,7 @@ public class ProgramScreen implements ProgramScreenInterface {
         this.currentStage.setScene(this.currentScene);
     }
 
-    public void InitController() {
+    public void initController() {
 
     }
 

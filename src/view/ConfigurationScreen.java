@@ -21,23 +21,23 @@ public class ConfigurationScreen extends ProgramScreen {
     private ConfigurationScreenController controller;
 
     public ConfigurationScreen() {
-        this.InitStage(this.width, this.height);
-        this.InitStageElements();
-        this.InitController();
+        this.initStage(this.width, this.height);
+        this.initStageElements();
+        this.initController();
     }
 
     @Override
-    public void InitController() {
+    public void initController() {
         this.controller = new ConfigurationScreenController(this);
-        this.StartController();
+        this.startController();
     }
 
-    public void StartController() {
+    public void startController() {
         this.currentStage.show();
         this.controller.playButtonHandler();
     }
 
-    public void InitStageElements() {
+    public void initStageElements() {
         this.createTitle();
         this.createNameInput();
         this.createDropdownMenu();
@@ -65,7 +65,7 @@ public class ConfigurationScreen extends ProgramScreen {
         dropdown = new ComboBox();
         Label label = new Label("Select the Difficulty:");
         dropdown.getItems().addAll(
-          "EASY",
+                "EASY",
                 "MEDIUM",
                 "HARD"
         );

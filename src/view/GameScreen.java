@@ -11,7 +11,6 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import model.GameModel;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
 import model.Player;
@@ -32,18 +31,18 @@ public class GameScreen extends ProgramScreen {
 
     public GameScreen(Player player) {
         this.setPlayer(player);
-        this.InitStage(this.width, this.height);
-        this.InitStageElements();
-        this.InitController();
+        this.initStage(this.width, this.height);
+        this.initStageElements();
+        this.initController();
     }
 
     @Override
-    public void InitController() {
+    public void initController() {
         this.controller = new GameScreenController(this);
-        this.StartController();
+        this.startController();
     }
 
-    public void StartController() {
+    public void startController() {
         this.currentStage.show();
         this.controller.resetGameParameters();
 
@@ -54,7 +53,7 @@ public class GameScreen extends ProgramScreen {
         this.controller.startButtonHandler(this);
     }
 
-    public void InitStageElements() {
+    public void initStageElements() {
         towers = new HashMap<>();
         border = new BorderPane();
 

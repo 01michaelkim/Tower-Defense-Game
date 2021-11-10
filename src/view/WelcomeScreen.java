@@ -16,23 +16,23 @@ public class WelcomeScreen extends ProgramScreen {
     private ImageView startButton;
 
     public WelcomeScreen() {
-        this.InitStage(this.width, this.height);
-        this.InitStageElements();
-        this.InitController();
+        this.initStage(this.width, this.height);
+        this.initStageElements();
+        this.initController();
     }
 
     @Override
-    public void InitController() {
+    public void initController() {
         this.controller = new WelcomeScreenController(this);
-        this.StartController();
+        this.startController();
     }
 
-    public void StartController() {
+    public void startController() {
         this.currentStage.show();
         this.controller.startButtonHandler();
     }
 
-    public void InitStageElements() {
+    public void initStageElements() {
         this.createStartButton();
         this.createStage();
     }

@@ -5,31 +5,25 @@ import javafx.stage.Stage;
 import model.Player;
 import view.*;
 
-interface ProgramScreenControllerInterface {
-    public Scene getScene();
-    public Stage getStage();
-    public void setNextStage(ProgramScreen programScreen);
-}
-
 abstract class ProgramScreenController implements ProgramScreenControllerInterface {
     protected Stage currentStage;
     protected Stage nextStage;
     protected Scene currentScene;
     private Player player;
 
-    public ProgramScreenController(){
+    public ProgramScreenController() {
         this.player = null;
     }
 
-    public Scene getScene(){
+    public Scene getScene() {
         return this.currentScene;
     }
 
-    public Stage getStage(){
+    public Stage getStage() {
         return this.currentStage;
     }
 
-    public void setNextStage(ProgramScreen programScreen){
+    public void setNextStage(ProgramScreen programScreen) {
         if (programScreen instanceof WelcomeScreen) {
             WelcomeScreen welcomeScreen = (WelcomeScreen) programScreen;
             this.nextStage = programScreen.getStage();
@@ -45,11 +39,11 @@ abstract class ProgramScreenController implements ProgramScreenControllerInterfa
         }
     }
 
-    public Player getPlayer(){
+    public Player getPlayer() {
         return this.player;
     }
 
-    public void setPlayer(Player player){
+    public void setPlayer(Player player) {
         this.player = player;
     }
 }

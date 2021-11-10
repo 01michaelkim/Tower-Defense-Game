@@ -9,7 +9,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             WelcomeScreen screen = new WelcomeScreen();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
