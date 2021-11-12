@@ -11,19 +11,11 @@ public class Notebook extends Tower {
     private String description;
 
     public Notebook() {
+        super();
         this.image = new Image("images/notebook.png");
         this.imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
-        if (GameModel.getDifficulty() == "EASY") {
-            price = 50;
-        }
-        if (GameModel.getDifficulty() == "MEDIUM") {
-            price = 100;
-        }
-        if (GameModel.getDifficulty() == "HARD") {
-            price = 150;
-        }
         description = "Notebook Tower\n Cost: " + price;
     }
 
@@ -39,5 +31,9 @@ public class Notebook extends Tower {
 
     public String getDescription() {
         return description;
+    }
+    @Override
+    public void attack() {
+
     }
 }

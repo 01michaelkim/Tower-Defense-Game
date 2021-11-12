@@ -11,19 +11,11 @@ public class Plant extends Tower {
     private String description;
 
     public Plant() {
+        super();
         this.image = new Image("images/plant.png");
         this.imageView = new ImageView(image);
         imageView.setFitWidth(50);
         imageView.setFitHeight(50);
-        if (GameModel.getDifficulty() == "EASY") {
-            price = 50;
-        }
-        if (GameModel.getDifficulty() == "MEDIUM") {
-            price = 100;
-        }
-        if (GameModel.getDifficulty() == "HARD") {
-            price = 150;
-        }
         description = "Plant Tower\n Cost: " + price;
     }
 
@@ -39,5 +31,10 @@ public class Plant extends Tower {
 
     public String getDescription() {
         return description;
+    }
+
+    @Override
+    public void attack() {
+
     }
 }
