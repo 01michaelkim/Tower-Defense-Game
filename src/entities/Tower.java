@@ -1,5 +1,6 @@
 package entities;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.GameModel;
@@ -12,6 +13,11 @@ public abstract class Tower {
     public Point2D pos;
     public int damValue;
     public int price;
+
+    /**
+     * Which things go in child/parent constructors can definitely be modified here but careful with errors.
+     */
+
     public Tower() {
         if (GameModel.getDifficulty() == "EASY") {
             price = 50;
@@ -29,5 +35,5 @@ public abstract class Tower {
     public abstract String getDescription();
     public abstract void attack();
 
-
+    public abstract void draw(GraphicsContext g);
 }
