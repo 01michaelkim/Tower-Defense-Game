@@ -172,7 +172,11 @@ public class GameScreen extends ProgramScreen {
          * controller.update
          * controller.draw
          */
-        controller.drawTowers(g, controller.getTowers());
+        controller.drawTowers(g);
+        if (controller.isInCombat()) {
+            controller.updateEnemies();
+            controller.drawEnemies(g);
+        }
     }
 
     //Getters
