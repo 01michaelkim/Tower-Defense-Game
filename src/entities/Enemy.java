@@ -15,6 +15,7 @@ public abstract class Enemy {
     private int health = 1;
     private int speed = 1;
     private boolean isAlive;
+    private final int imageSize = 50;
 
     public Enemy (int healthMod, int speedMod, double x, double y) {
         this.health *= healthMod;
@@ -23,6 +24,10 @@ public abstract class Enemy {
         this.dx = speed;
         this.dy = 0;
         this.isAlive = true;
+    }
+
+    public int getImageSize() {
+        return this.imageSize;
     }
 
     public abstract void draw(GraphicsContext g);
@@ -56,6 +61,14 @@ public abstract class Enemy {
             dx = speed;
             dy = 0;
         }
+    }
+
+    public int getHealth() {
+        return this.health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public void takeDamage(int damage) {

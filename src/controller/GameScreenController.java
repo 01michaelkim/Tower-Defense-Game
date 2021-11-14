@@ -80,15 +80,22 @@ public class GameScreenController extends ProgramScreenController {
             List<Enemy> found = new ArrayList<>();
             for (Enemy enemy : enemyList) {
                 enemy.checkPath();
-                System.out.println("Enemy Position: " + enemy.getPos().getX() + ", " + enemy.getPos().getY());
                 if (enemy.getPos().getX() == 400 && enemy.getPos().getY() == 380) {
                     found.add(enemy);
                     updateHealth(gameScreen);
+                } else if (enemy.getHealth() < 0) {
+                    found.add(enemy);
+                    updateMoney(gameScreen);
                 }
                 enemy.updatePos();
             }
             enemyList.removeAll(found);
         }
+    }
+
+    public void updateMoney(GameScreen gameScreen) {
+        getPlayer().setMoney(getPlayer().getMoney() + 50);
+        gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
     }
 
     public void updateHealth(GameScreen gameScreen) {
@@ -132,7 +139,6 @@ public class GameScreenController extends ProgramScreenController {
                         && !isPath(event.getSceneX(), event.getSceneY())) {
                     event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
                 }
-
                 event.consume();
             }
         });
@@ -142,18 +148,21 @@ public class GameScreenController extends ProgramScreenController {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
                 if (db.hasImage()) {
-                    System.out.println("GAY");
-                    if (tower instanceof Plant) {
+                    if (isImageEqual(db.getImage(), plant.getImageView().getImage())) {
                         towers.add(new Plant(event.getX() - 16,event.getY() - 16));
-                    } else if (tower instanceof Notebook) {
+                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
+                    } else if (isImageEqual(db.getImage(), notebook.getImageView().getImage())) {
                         towers.add(new Notebook(event.getX() - 16,event.getY() - 16));
-                    } else if (tower instanceof Fish) {
-                        towers.add(new Fish(event.getX() - 16,event.getY() - 16));
+                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
+                    } else if (isImageEqual(db.getImage(), fish.getImageView().getImage())) {
+                        towers.add(new Fish(event.getX() - 16, event.getY() - 16));
+                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     }
                     success = true;
                 }
-                getPlayer().setMoney(getPlayer().getMoney() - tower.getPrice());
-                gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                 event.setDropCompleted(success);
 
                 event.consume();
@@ -161,13 +170,43 @@ public class GameScreenController extends ProgramScreenController {
         });
     }
 
-    public void drawTowers(GraphicsContext g) {
+    private boolean isImageEqual(Image firstImage, Image secondImage){
+        if(firstImage != null && secondImage == null) return false;
+        if(firstImage == null) return secondImage == null;
+
+        if(firstImage.getWidth() != secondImage.getWidth()) return false;
+        if(firstImage.getHeight() != secondImage.getHeight()) return false;
+
+        for(int x = 0; x < firstImage.getWidth(); x++){
+            for(int y = 0; y < firstImage.getHeight(); y++){
+                int firstArgb = firstImage.getPixelReader().getArgb(x, y);
+                int secondArgb = secondImage.getPixelReader().getArgb(x, y);
+
+                if(firstArgb != secondArgb) return false;
+            }
+        }
+        return true;
+    }
+
+    public void drawTowers(GraphicsContext g, GameScreen gameScreen) {
         if (towers == null) {
             throw new IllegalArgumentException("TowersList is null");
         }
         for (Tower tower : towers) {
             tower.draw(g);
+            for (Enemy enemy : enemyList) {
+                if (inRange(tower, enemy)) {
+                    tower.drawLaser(g, tower, enemy);
+                    tower.attack(enemy);
+                }
+            }
         }
+    }
+
+    private boolean inRange(Tower tower, Enemy enemy) {
+        return (Math.pow(tower.getPos().getX() - enemy.getPos().getX(), 2)
+                + Math.pow(tower.getPos().getY() - enemy.getPos().getY(), 2))
+                < Math.pow(tower.getRange(), 2);
     }
 
     public boolean isPath(double x, double y) {

@@ -1,21 +1,18 @@
 package entities;
 
-import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Overdude extends Enemy {
+public class Benzo extends Enemy {
     private Image image;
     private ImageView imageView;
-    public Overdude(double x, double y) {
-        super(10,10, x, y);
-        this.image = new Image("images/overdu-de.png");
+    public Benzo(double x, double y) {
+        super(5,10, x, y);
+        this.image = new Image("images/benzo.png");
         this.imageView = new ImageView(image);
-        imageView.setFitWidth(super.getImageSize());
-        imageView.setFitHeight(super.getImageSize());
     }
-    
+
     @Override
     public ImageView getImageView() {
         return imageView;

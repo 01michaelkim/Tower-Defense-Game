@@ -41,6 +41,7 @@ public class GameScreen extends ProgramScreen {
     private final int canvasLength = 500;
     private GraphicsContext g;
     private boolean inGame = true;
+    private int frameCount = 0;
 
     public GameScreen(Player player) {
         this.setPlayer(player);
@@ -161,8 +162,8 @@ public class GameScreen extends ProgramScreen {
     }
 
     public void doGameCycle() {
-        controller.drawTowers(g);
         g.clearRect(0, 0, canvasWidth, canvasLength);
+        controller.drawTowers(g, this);
         controller.updateEnemies(this);
         controller.drawEnemies(g);
     }
