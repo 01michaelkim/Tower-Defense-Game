@@ -56,7 +56,7 @@ public class Plant extends Tower {
         g.beginPath();
         g.moveTo(tower.pos.getX(), tower.pos.getY());
         g.stroke();
-        g.lineTo(enemy.getX(), enemy.getY());
+        //g.lineTo(enemy.getX(), enemy.getY());
         g.stroke();
     }
 

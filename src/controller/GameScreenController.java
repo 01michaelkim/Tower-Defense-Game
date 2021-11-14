@@ -31,6 +31,8 @@ public class GameScreenController extends ProgramScreenController {
     private Tower fish;
     private Path path;
     private GameScreen gameScreen;
+    private boolean inCombat = false;
+    private ArrayList<Enemy> enemyList = new ArrayList<>();
 
     private ArrayList<Tower> towers = new ArrayList<>();
 
@@ -64,29 +66,35 @@ public class GameScreenController extends ProgramScreenController {
 
         this.startButton.setOnMouseClicked(e -> {
             initCombat(gameScreen);
+            inCombat = true;
         });
     }
     //need to modify this so that we are moving around and tracking enemy objects
     //not just imageView nodes
     public void initCombat(GameScreen gameScreen) {
-        ArrayList<Enemy> enemyList = new ArrayList<>();
+        /**
         for (int i = 0; i < 10; i++) {
-            Overdude enemy = new Overdude();
+            Overdude enemy = new Overdude(0, 40);
             enemyList.add(enemy);
         }
+         */
+        Overdude enemy = new Overdude(0, 40);
+        enemyList.add(enemy);
 
         Rectangle brain = new Rectangle(50, 50);
         brain.setX(450);
         brain.setY(400);
-
-
+        /**
         for (Enemy element: enemyList) {
+
             this.border.getChildren().add(element.getImageView());
             PathTransition transition = new PathTransition();
             transition.setDuration(Duration.seconds(25));
             transition.setPath(this.path);
             transition.setNode(element.getImageView());
             transition.play();
+
+
             AnimationTimer collisionTimer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
@@ -108,12 +116,26 @@ public class GameScreenController extends ProgramScreenController {
                     }
                 }
             };
-
             collisionTimer.start();
-            delaySpawn(500);
+            //delaySpawn(500);
+
         }
         startButton.setVisible(false);
+         */
     }
+    public void updateEnemies() {
+        for (Enemy enemy : enemyList) {
+            enemy.checkPath();
+            System.out.println("Enemy Position: " + enemy.getPos().getX() + ", " + enemy.getPos().getY());
+            enemy.updatePos();
+        }
+    }
+    public void drawEnemies(GraphicsContext g) {
+        for (Enemy enemy: enemyList) {
+            enemy.draw(g);
+        }
+    }
+
     //Everything is being recognized and drawn as Fish Towers, I suspect the problem is somewhere in here, not sure
     public void dragDropHandler(GameScreen gameScreen, Tower tower) {
         ImageView source = tower.getImageView();
@@ -174,7 +196,7 @@ public class GameScreenController extends ProgramScreenController {
         });
     }
 
-    public void drawTowers(GraphicsContext g, ArrayList<Tower> towers) {
+    public void drawTowers(GraphicsContext g) {
         if (towers == null) {
             throw new IllegalArgumentException("towerList is null");
         }
@@ -233,8 +255,8 @@ public class GameScreenController extends ProgramScreenController {
         return flag;
     }
 
-    public ArrayList<Tower> getTowers() {
-        return towers;
+    public boolean isInCombat() {
+        return inCombat;
     }
 
 }
