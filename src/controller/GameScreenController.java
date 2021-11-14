@@ -1,11 +1,11 @@
 package controller;
 
-import entities.Overdude;
-import entities.Tower;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -30,6 +30,9 @@ public class GameScreenController extends ProgramScreenController {
     private Tower notebook;
     private Tower fish;
     private Path path;
+    private GameScreen gameScreen;
+
+    private ArrayList<Tower> towers = new ArrayList<>();
 
     public GameScreenController(GameScreen gameScreen) {
         this.setPlayer(gameScreen.getPlayer());
@@ -60,52 +63,58 @@ public class GameScreenController extends ProgramScreenController {
         });
 
         this.startButton.setOnMouseClicked(e -> {
-            ArrayList<ImageView> enemyList = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                Overdude enemy = new Overdude();
-                enemyList.add(enemy.getImageView());
-            }
+            initCombat(gameScreen);
+        });
+    }
+    //need to modify this so that we are moving around and tracking enemy objects
+    //not just imageView nodes
+    public void initCombat(GameScreen gameScreen) {
+        ArrayList<Enemy> enemyList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Overdude enemy = new Overdude();
+            enemyList.add(enemy);
+        }
 
-            Rectangle brain = new Rectangle(50, 50);
-            brain.setX(450);
-            brain.setY(400);
+        Rectangle brain = new Rectangle(50, 50);
+        brain.setX(450);
+        brain.setY(400);
 
-            for (ImageView element: enemyList) {
-                this.border.getChildren().add(element);
-                PathTransition transition = new PathTransition();
-                transition.setDuration(Duration.seconds(25));
-                transition.setPath(this.path);
-                transition.setNode(element);
-                transition.play();
-                AnimationTimer collisionTimer = new AnimationTimer() {
-                    @Override
-                    public void handle(long now) {
-                        if (element.getBoundsInParent().intersects(brain.getBoundsInParent())) {
-                            if (element.isVisible()) {
-                                element.setVisible(false);
 
-                                getPlayer().setHealth(getPlayer().getHealth() - 50);
-                                gameScreen.setHealthLabel("Health: " + getPlayer().getHealth());
+        for (Enemy element: enemyList) {
+            this.border.getChildren().add(element.getImageView());
+            PathTransition transition = new PathTransition();
+            transition.setDuration(Duration.seconds(25));
+            transition.setPath(this.path);
+            transition.setNode(element.getImageView());
+            transition.play();
+            AnimationTimer collisionTimer = new AnimationTimer() {
+                @Override
+                public void handle(long now) {
+                    if (element.getImageView().getBoundsInParent().intersects(brain.getBoundsInParent())) {
+                        if (element.isVisible()) {
+                            element.setVisible(false);
 
-                                if (getPlayer().getHealth() == 0) {
-                                    setNextStage(new GameOverScreen());
-                                    currentStage.close();
-                                    currentStage = null;
-                                    currentStage = nextStage;
-                                    currentStage.show();
-                                }
+                            getPlayer().setHealth(getPlayer().getHealth() - 50);
+                            gameScreen.setHealthLabel("Health: " + getPlayer().getHealth());
+
+                            if (getPlayer().getHealth() == 0) {
+                                setNextStage(new GameOverScreen());
+                                currentStage.close();
+                                currentStage = null;
+                                currentStage = nextStage;
+                                currentStage.show();
                             }
                         }
                     }
-                };
+                }
+            };
 
-                collisionTimer.start();
-                delaySpawn(500);
-            }
-            startButton.setVisible(false);
-        });
+            collisionTimer.start();
+            delaySpawn(500);
+        }
+        startButton.setVisible(false);
     }
-
+    //Everything is being recognized and drawn as Fish Towers, I suspect the problem is somewhere in here, not sure
     public void dragDropHandler(GameScreen gameScreen, Tower tower) {
         ImageView source = tower.getImageView();
         Node target = gameScreen.getBorder().getCenter();
@@ -139,12 +148,21 @@ public class GameScreenController extends ProgramScreenController {
                 Dragboard db = event.getDragboard();
                 boolean success = false;
                 if (db.hasImage()) {
+
+                    if (tower instanceof Plant) {
+                        towers.add(new Plant(event.getX() - 16,event.getY() - 16));
+                    } else if (tower instanceof Notebook) {
+                        towers.add(new Notebook(event.getX() - 16,event.getY() - 16));
+                    } else if (tower instanceof Fish) {
+                        towers.add(new Fish(event.getX() - 16,event.getY() - 16));
+                    }
+                    /**
                     ImageView placed = new ImageView(db.getImage());
 
                     placed.setTranslateX(placed.getTranslateX() + event.getX() - 16);
                     placed.setTranslateY(placed.getTranslateY() + event.getY() - 16);
-
                     ((Pane) target).getChildren().add(placed);
+                    */
                     success = true;
                 }
                 getPlayer().setMoney(getPlayer().getMoney() - tower.getPrice());
@@ -154,6 +172,17 @@ public class GameScreenController extends ProgramScreenController {
                 event.consume();
             }
         });
+    }
+
+    public void drawTowers(GraphicsContext g, ArrayList<Tower> towers) {
+        if (towers == null) {
+            throw new IllegalArgumentException("towerList is null");
+        }
+        System.out.println(towers.size());
+        for (Tower tower : towers) {
+            tower.draw(g);
+            System.out.println(tower.toString());
+        }
     }
 
     public void delaySpawn(long delay) {
@@ -203,4 +232,9 @@ public class GameScreenController extends ProgramScreenController {
         }
         return flag;
     }
+
+    public ArrayList<Tower> getTowers() {
+        return towers;
+    }
+
 }
