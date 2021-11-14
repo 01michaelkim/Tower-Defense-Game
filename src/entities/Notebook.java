@@ -11,15 +11,13 @@ public class Notebook extends Tower {
     private ImageView imageView;
     private int price;
     private String description;
-    private Point2D pos;
 
     public Notebook(double x, double y) {
-        super();
+        super(x, y);
         this.image = new Image("images/notebook.png");
         this.imageView = new ImageView(image);
-        this.pos = new Point2D(x,y);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(super.getImageSize());
+        imageView.setFitHeight(super.getImageSize());
         description = "Notebook Tower\n Cost: " + price;
     }
 
@@ -38,13 +36,20 @@ public class Notebook extends Tower {
     }
 
     @Override
-    public void attack() {
+    public void draw(GraphicsContext g) {
+        g.drawImage(this.image, super.getPos().getX(), super.getPos().getY());
     }
 
     @Override
-    public void draw(GraphicsContext g) {
-        g.drawImage(image, pos.getX(), pos.getY());
+    public void attack(Enemy enemy, int frameCount) {
+
     }
+
+    @Override
+    public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
+
+    }
+
     @Override
     public String toString() {
         return "Notebook Tower";

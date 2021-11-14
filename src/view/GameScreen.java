@@ -37,6 +37,8 @@ public class GameScreen extends ProgramScreen {
     private BorderPane border;
     private GameScreenController controller;
     private Canvas canvas;
+    private final int canvasWidth = 500;
+    private final int canvasLength = 500;
     private GraphicsContext g;
     private boolean inGame = true;
 
@@ -92,14 +94,12 @@ public class GameScreen extends ProgramScreen {
                 BackgroundSize.DEFAULT);
         Background background = new Background(backImage);
         Pane centerPane = new Pane();
-        this.canvas = new Canvas(500, 500);
+        this.canvas = new Canvas(canvasWidth, canvasLength);
         centerPane.getChildren().add(canvas);
         centerPane.setBackground(background);
         this.border.setCenter(centerPane);
 
     }
-
-
 
     public void createPlayerDataPane() {
         startButton = new ImageView(new Image("images//startButton1.png"));
@@ -140,46 +140,32 @@ public class GameScreen extends ProgramScreen {
     }
 
     public void loopGame() {
-        //Setup
         this.g = canvas.getGraphicsContext2D();
-
-        //Body of Loop
         this.controller.startButtonHandler(this);
         AnimationTimer timer = new MyTimer();
         timer.start();
     }
 
-    //Timer Class
     private class MyTimer extends AnimationTimer {
         private long prevTime = 0;
 
         @Override
         public void handle(long a) {
             long dt = a - prevTime;
-            //This conditional makes it so that loop runs every ___ seconds?
-            //adjust this number to run faster/slower
-            if (dt > 1e9) {
+
+            if (dt > 1e8) {
                 prevTime = a;
                 doGameCycle();
             }
         }
     }
-    //This method is what happens within a frame of the game
-    //Everything that needs to happen pretty much goes in here
-    public void doGameCycle() {
-        //need to add update and draw methods for other components
-        /**Basic structure for enemies, projectile/lasers, towers, monument:
-         * controller.update
-         * controller.draw
-         */
-        controller.drawTowers(g);
-        if (controller.isInCombat()) {
-            controller.updateEnemies();
-            controller.drawEnemies(g);
-        }
-    }
 
-    //Getters
+    public void doGameCycle() {
+        controller.drawTowers(g);
+        g.clearRect(0, 0, canvasWidth, canvasLength);
+        controller.updateEnemies(this);
+        controller.drawEnemies(g);
+    }
 
     public ImageView getStartButton() {
         return startButton;

@@ -1,24 +1,18 @@
 package entities;
 
+import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.GameModel;
 
-import java.awt.geom.Point2D;
-
 public abstract class Tower {
-    //private Image image;
-    private ImageView imageView;
-    public Point2D pos;
-    public int damValue;
+    private final int imageSize = 50;
     public int price;
+    private Point2D pos;
 
-    /**
-     * Which things go in child/parent constructors can definitely be modified here but careful with errors.
-     */
-
-    public Tower() {
+    public Tower(double x, double y) {
+        this.pos = new Point2D(x, y);
         if (GameModel.getDifficulty() == "EASY") {
             price = 50;
         }
@@ -29,11 +23,20 @@ public abstract class Tower {
             price = 150;
         }
     }
+
+    public Point2D getPos() {
+        return this.pos;
+    }
+
+    public int getImageSize() {
+        return this.imageSize;
+    }
+
     public abstract int getPrice();
 
     public abstract ImageView getImageView();
     public abstract String getDescription();
-    public abstract void attack();
-
     public abstract void draw(GraphicsContext g);
+    public abstract void attack(Enemy enemy, int frameCount);
+    public abstract void drawLaser(GraphicsContext g, Tower tower, Enemy enemy);
 }

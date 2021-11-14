@@ -4,22 +4,24 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
 import model.GameModel;
 
 public class Fish extends Tower {
     private Image image;
     private ImageView imageView;
     private int price;
+    public int attack;
+    public int range;
+    public int fireRate; // per sec
     private String description;
-    private Point2D pos;
 
     public Fish(double x, double y) {
-        super();
+        super(x, y);
         this.image = new Image("images/fish.png");
         this.imageView = new ImageView(image);
-        this.pos = new Point2D(x, y);
-        imageView.setFitWidth(50);
-        imageView.setFitHeight(50);
+        imageView.setFitWidth(super.getImageSize());
+        imageView.setFitHeight(super.getImageSize());
         description = "Fish Tower\n Cost: " + price;
     }
 
@@ -36,15 +38,26 @@ public class Fish extends Tower {
         return description;
     }
 
+    @Override
+    public void draw(GraphicsContext g) {
+        g.drawImage(this.image, super.getPos().getX(), super.getPos().getY());
+    }
 
     @Override
-    public void attack() {
+    public void attack(Enemy enemy, int frameCount) {
 
     }
 
     @Override
-    public void draw(GraphicsContext g) {
-        g.drawImage(image, pos.getX(), pos.getY());
+    public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
+//        g.setFill(Color.GREEN);
+//        g.setStroke(Color.GREEN);
+//        g.setLineWidth(2);
+//        g.beginPath();
+//        g.moveTo(tower.getPos().getX(), tower.getPos().getY());
+//        g.stroke();
+//        g.lineTo(enemy.getPos().getX(), enemy.getPos().getY());
+//        g.stroke();
     }
 
     @Override
