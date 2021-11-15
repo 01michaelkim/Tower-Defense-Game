@@ -2,13 +2,12 @@ package entities;
 
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import model.GameModel;
 
 public abstract class Tower {
     private final int imageSize = 50;
-    public int price;
+    private int price;
     private Point2D pos;
     private int range;
     private int attack;

@@ -7,10 +7,6 @@ import entities.Notebook;
 import entities.Plant;
 import entities.Tower;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
@@ -20,7 +16,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
-import javafx.util.Duration;
 import model.Player;
 
 import java.util.HashMap;
@@ -65,7 +60,7 @@ public class GameScreen extends ProgramScreen {
             this.controller.dragDropHandler(this, towers.get(key));
         }
 
-        this.controller.startButtonHandler(this);
+        this.controller.startButtonHandler();
     }
 
     public void initStageElements() {
@@ -80,9 +75,9 @@ public class GameScreen extends ProgramScreen {
     }
 
     public void populateTowers() {
-        towers.put("Plant", new Plant(0,0));
-        towers.put("Notebook", new Notebook(0,0));
-        towers.put("Fish", new Fish(0,0));
+        towers.put("Plant", new Plant(0, 0));
+        towers.put("Notebook", new Notebook(0, 0));
+        towers.put("Fish", new Fish(0, 0));
         System.out.println(towers.toString());
     }
 
@@ -142,23 +137,8 @@ public class GameScreen extends ProgramScreen {
 
     public void loopGame() {
         this.g = canvas.getGraphicsContext2D();
-        this.controller.startButtonHandler(this);
         AnimationTimer timer = new MyTimer();
         timer.start();
-    }
-
-    private class MyTimer extends AnimationTimer {
-        private long prevTime = 0;
-
-        @Override
-        public void handle(long a) {
-            long dt = a - prevTime;
-
-            if (dt > gameTick) {
-                prevTime = a;
-                doGameCycle();
-            }
-        }
     }
 
     public void doGameCycle() {
@@ -206,6 +186,20 @@ public class GameScreen extends ProgramScreen {
 
     public BorderPane getBorder() {
         return border;
+    }
+
+    private class MyTimer extends AnimationTimer {
+        private long prevTime = 0;
+
+        @Override
+        public void handle(long a) {
+            long dt = a - prevTime;
+
+            if (dt > gameTick) {
+                prevTime = a;
+                doGameCycle();
+            }
+        }
     }
 }
 

@@ -1,8 +1,6 @@
 package controller;
 
 import entities.*;
-import javafx.animation.AnimationTimer;
-import javafx.animation.PathTransition;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
@@ -10,18 +8,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
-import javafx.util.Duration;
 import model.GameModel;
 import view.GameOverScreen;
 import view.GameScreen;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class GameScreenController extends ProgramScreenController {
@@ -32,8 +23,6 @@ public class GameScreenController extends ProgramScreenController {
     private Tower plant;
     private Tower notebook;
     private Tower fish;
-    private Path path;
-    private GameScreen gameScreen;
     private ArrayList<Enemy> enemyList = new ArrayList<>();
 
     private ArrayList<Tower> towers = new ArrayList<>();
@@ -55,7 +44,7 @@ public class GameScreenController extends ProgramScreenController {
         this.getPlayer().reset();
     }
 
-    public void startButtonHandler(GameScreen gameScreen) {
+    public void startButtonHandler() {
         this.startButton.setOnMouseEntered(e -> {
             this.startButton.setImage(this.startButtonHovered);
         });
@@ -66,7 +55,7 @@ public class GameScreenController extends ProgramScreenController {
 
         this.startButton.setOnMouseClicked(e -> {
             initCombat();
-//            startButton.setVisible(false);
+            startButton.setVisible(false);
         });
     }
 
@@ -154,11 +143,11 @@ public class GameScreenController extends ProgramScreenController {
                 boolean success = false;
                 if (db.hasImage()) {
                     if (isImageEqual(db.getImage(), plant.getImageView().getImage())) {
-                        towers.add(new Plant(event.getX() - 16,event.getY() - 16));
+                        towers.add(new Plant(event.getX() - 16, event.getY() - 16));
                         getPlayer().setMoney(getPlayer().getMoney() - plant.getPrice());
                         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     } else if (isImageEqual(db.getImage(), notebook.getImageView().getImage())) {
-                        towers.add(new Notebook(event.getX() - 16,event.getY() - 16));
+                        towers.add(new Notebook(event.getX() - 16, event.getY() - 16));
                         getPlayer().setMoney(getPlayer().getMoney() - notebook.getPrice());
                         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     } else if (isImageEqual(db.getImage(), fish.getImageView().getImage())) {
@@ -175,19 +164,28 @@ public class GameScreenController extends ProgramScreenController {
         });
     }
 
-    private boolean isImageEqual(Image firstImage, Image secondImage){
-        if(firstImage != null && secondImage == null) return false;
-        if(firstImage == null) return secondImage == null;
+    private boolean isImageEqual(Image firstImage, Image secondImage) {
+        if (firstImage != null && secondImage == null) {
+            return false;
+        }
+        if (firstImage == null) {
+            return secondImage == null;
+        }
 
-        if(firstImage.getWidth() != secondImage.getWidth()) return false;
-        if(firstImage.getHeight() != secondImage.getHeight()) return false;
+        if (firstImage.getWidth() != secondImage.getWidth()) {
+            return false;
+        }
+        if (firstImage.getHeight() != secondImage.getHeight()) {
+            return false;
+        }
 
-        for(int x = 0; x < firstImage.getWidth(); x++){
-            for(int y = 0; y < firstImage.getHeight(); y++){
+        for (int x = 0; x < firstImage.getWidth(); x++) {
+            for (int y = 0; y < firstImage.getHeight(); y++) {
                 int firstArgb = firstImage.getPixelReader().getArgb(x, y);
                 int secondArgb = secondImage.getPixelReader().getArgb(x, y);
-
-                if(firstArgb != secondArgb) return false;
+                if (firstArgb != secondArgb) {
+                    return false;
+                }
             }
         }
         return true;
