@@ -63,7 +63,10 @@ public class GameScreenController extends ProgramScreenController {
         if (GameModel.getDifficulty().equals("EASY")) {
             Overdude enemy = new Overdude(0, 20);
             enemyList.add(enemy);
-        } else {
+        } else if (GameModel.getDifficulty().equals("MEDIUM")) {
+            Pizza enemy = new Pizza(0, 20);
+            enemyList.add(enemy);
+        } else if (GameModel.getDifficulty().equals("HARD")) {
             Benzo enemy = new Benzo(0, 20);
             enemyList.add(enemy);
         }
