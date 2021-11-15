@@ -1,10 +1,7 @@
 package entities;
 
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
 
 import javafx.geometry.Point2D;
 
@@ -20,7 +17,7 @@ public abstract class Enemy {
     private final int imageSize = 50;
     private double transparency = 1.0;
 
-    public Enemy (int healthMod, int speedMod, double x, double y) {
+    public Enemy(int healthMod, int speedMod, double x, double y) {
         this.health *= healthMod;
         this.startingHealth *= healthMod;
         this.speed *= speedMod;
