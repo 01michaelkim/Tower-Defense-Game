@@ -10,11 +10,11 @@ import model.GameModel;
 public class Plant extends Tower {
     private Image image;
     private ImageView imageView;
-    private int price;
+    private int price = 50;
     private String description;
     private Point2D pos;
     private int range = 100;
-    private int attack = 10;
+    private int attack = 2;
 
     public Plant(double x, double y) {
         super();
@@ -23,7 +23,10 @@ public class Plant extends Tower {
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
-        description = "Plant Tower\n Cost: " + price;
+        description = "Plant Tower"
+                + "\nCost: " + price
+                + "\nRange: " + range
+                + "\nAttack Dmg: " + attack;
     }
 
     @Override
@@ -67,8 +70,8 @@ public class Plant extends Tower {
 
     @Override
     public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
-        g.setFill(Color.GREEN);
-        g.setStroke(Color.GREEN);
+        g.setFill(Color.LIGHTGREEN);
+        g.setStroke(Color.LIGHTGREEN);
         g.setLineWidth(2);
         g.beginPath();
         g.moveTo(tower.getPos().getX() + 16, tower.getPos().getY() + 16);

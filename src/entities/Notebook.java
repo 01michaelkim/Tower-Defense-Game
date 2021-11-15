@@ -10,11 +10,11 @@ import model.GameModel;
 public class Notebook extends Tower {
     private Image image;
     private ImageView imageView;
-    private int price;
+    private int price = 100;
     private String description;
     private Point2D pos;
-    private int range = 200;
-    private int attack = 10;
+    private int range = 150;
+    private int attack = 5;
 
     public Notebook(double x, double y) {
         super();
@@ -23,7 +23,10 @@ public class Notebook extends Tower {
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
-        description = "Notebook Tower\n Cost: " + price;
+        description = "Notebook Tower"
+                + "\nCost: " + price
+                + "\nRange: " + range
+                + "\nAttack Dmg: " + attack;
     }
 
     @Override
@@ -67,8 +70,8 @@ public class Notebook extends Tower {
 
     @Override
     public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
-        g.setFill(Color.GREEN);
-        g.setStroke(Color.GREEN);
+        g.setFill(Color.RED);
+        g.setStroke(Color.RED);
         g.setLineWidth(2);
         g.beginPath();
         g.moveTo(tower.getPos().getX() + 16, tower.getPos().getY() + 16);

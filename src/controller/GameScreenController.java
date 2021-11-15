@@ -16,6 +16,7 @@ import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import model.GameModel;
 import view.GameOverScreen;
 import view.GameScreen;
 
@@ -65,12 +66,16 @@ public class GameScreenController extends ProgramScreenController {
 
         this.startButton.setOnMouseClicked(e -> {
             initCombat();
+//            startButton.setVisible(false);
         });
     }
 
     public void initCombat() {
-        for (int i = 0; i < 1; i++) {
+        if (GameModel.getDifficulty().equals("EASY")) {
             Overdude enemy = new Overdude(0, 20);
+            enemyList.add(enemy);
+        } else {
+            Benzo enemy = new Benzo(0, 20);
             enemyList.add(enemy);
         }
     }
@@ -82,10 +87,10 @@ public class GameScreenController extends ProgramScreenController {
                 enemy.checkPath();
                 if (enemy.getPos().getX() == 400 && enemy.getPos().getY() == 380) {
                     found.add(enemy);
-                    updateHealth(gameScreen);
+                    updateHealth(gameScreen, enemy);
                 } else if (enemy.getHealth() < 0) {
                     found.add(enemy);
-                    updateMoney(gameScreen);
+                    updateMoney(gameScreen, enemy);
                 }
                 enemy.updatePos();
             }
@@ -93,15 +98,15 @@ public class GameScreenController extends ProgramScreenController {
         }
     }
 
-    public void updateMoney(GameScreen gameScreen) {
-        getPlayer().setMoney(getPlayer().getMoney() + 50);
+    public void updateMoney(GameScreen gameScreen, Enemy enemy) {
+        getPlayer().setMoney(getPlayer().getMoney() + enemy.getCash());
         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
     }
 
-    public void updateHealth(GameScreen gameScreen) {
-        getPlayer().setHealth(getPlayer().getHealth() - 50);
+    public void updateHealth(GameScreen gameScreen, Enemy enemy) {
+        getPlayer().setHealth(getPlayer().getHealth() - enemy.getDamage());
         gameScreen.setHealthLabel("Health: " + getPlayer().getHealth());
-        if (getPlayer().getHealth() == 0) {
+        if (getPlayer().getHealth() <= 0) {
             setNextStage(new GameOverScreen());
             currentStage.close();
             currentStage = null;
@@ -150,15 +155,15 @@ public class GameScreenController extends ProgramScreenController {
                 if (db.hasImage()) {
                     if (isImageEqual(db.getImage(), plant.getImageView().getImage())) {
                         towers.add(new Plant(event.getX() - 16,event.getY() - 16));
-                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        getPlayer().setMoney(getPlayer().getMoney() - plant.getPrice());
                         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     } else if (isImageEqual(db.getImage(), notebook.getImageView().getImage())) {
                         towers.add(new Notebook(event.getX() - 16,event.getY() - 16));
-                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        getPlayer().setMoney(getPlayer().getMoney() - notebook.getPrice());
                         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     } else if (isImageEqual(db.getImage(), fish.getImageView().getImage())) {
                         towers.add(new Fish(event.getX() - 16, event.getY() - 16));
-                        getPlayer().setMoney(getPlayer().getMoney() - 50);
+                        getPlayer().setMoney(getPlayer().getMoney() - fish.getPrice());
                         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
                     }
                     success = true;
@@ -198,6 +203,9 @@ public class GameScreenController extends ProgramScreenController {
                 if (inRange(tower, enemy)) {
                     tower.drawLaser(g, tower, enemy);
                     tower.attack(enemy);
+                    if (enemy.getHealth() < enemy.getStartingHealth() / 2) {
+                        enemy.setTransparency(0.5);
+                    }
                 }
             }
         }

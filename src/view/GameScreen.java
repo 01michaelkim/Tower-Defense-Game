@@ -41,7 +41,7 @@ public class GameScreen extends ProgramScreen {
     private final int canvasLength = 500;
     private GraphicsContext g;
     private boolean inGame = true;
-    private int frameCount = 0;
+    private double gameTick = 1e8;
 
     public GameScreen(Player player) {
         this.setPlayer(player);
@@ -154,7 +154,7 @@ public class GameScreen extends ProgramScreen {
         public void handle(long a) {
             long dt = a - prevTime;
 
-            if (dt > 1e8) {
+            if (dt > gameTick) {
                 prevTime = a;
                 doGameCycle();
             }

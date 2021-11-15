@@ -10,11 +10,10 @@ import model.GameModel;
 public class Fish extends Tower {
     private Image image;
     private ImageView imageView;
-    private int price;
-    public int fireRate; // per sec
+    private int price = 150;
     private String description;
     private Point2D pos;
-    private int range = 100;
+    private int range = 250;
     private int attack = 10;
 
     public Fish(double x, double y) {
@@ -24,7 +23,10 @@ public class Fish extends Tower {
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
-        description = "Fish Tower\n Cost: " + price;
+        description = "Fish Tower"
+                + "\nCost: " + price
+                + "\nRange: " + range
+                + "\nAttack Dmg: " + attack;
     }
 
     @Override
@@ -67,8 +69,8 @@ public class Fish extends Tower {
 
     @Override
     public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
-        g.setFill(Color.GREEN);
-        g.setStroke(Color.GREEN);
+        g.setFill(Color.GOLD);
+        g.setStroke(Color.GOLD);
         g.setLineWidth(2);
         g.beginPath();
         g.moveTo(tower.getPos().getX() + 16, tower.getPos().getY() + 16);

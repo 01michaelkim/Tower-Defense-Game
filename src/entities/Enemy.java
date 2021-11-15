@@ -12,13 +12,17 @@ public abstract class Enemy {
     private Point2D pos;
     private int dx;
     private int dy;
-    private int health = 1;
+    private int startingHealth = 100;
+    private int health = 100;
     private int speed = 1;
+    private int cash = 50;
     private boolean isAlive;
     private final int imageSize = 50;
+    private double transparency = 1.0;
 
     public Enemy (int healthMod, int speedMod, double x, double y) {
         this.health *= healthMod;
+        this.startingHealth *= healthMod;
         this.speed *= speedMod;
         this.pos = new Point2D(x, y);
         this.dx = speed;
@@ -29,6 +33,16 @@ public abstract class Enemy {
     public int getImageSize() {
         return this.imageSize;
     }
+
+    public int getStartingHealth() {
+        return startingHealth;
+    }
+
+    public abstract int getCash();
+    public abstract int getDamage();
+
+    public abstract double getTransparency();
+    public abstract void setTransparency(double transparency);
 
     public abstract void draw(GraphicsContext g);
 
