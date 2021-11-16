@@ -73,6 +73,9 @@ public abstract class Enemy {
             dy = 0;
         }
     }
+    public boolean getisAlive() {
+        return this.isAlive;
+    }
 
     public int getHealth() {
         return this.health;
@@ -84,6 +87,9 @@ public abstract class Enemy {
 
     public void takeDamage(int damage) {
         this.health -= damage;
+        if (this.health <= 0) {
+            isAlive = false;
+        }
     }
 }
 

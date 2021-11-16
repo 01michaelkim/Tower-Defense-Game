@@ -2,8 +2,8 @@ package model;
 
 public class Player {
     private String characterName;
-    private int money = 500;
-    private int health;
+    private static int money = 500;
+    private static int health;
 
     public Player(String difficulty) {
         if (difficulty.equals("EASY")) {
@@ -27,7 +27,7 @@ public class Player {
         this.characterName = characterName;
     }
 
-    public int getMoney() {
+    public static int getMoney() {
         return money;
     }
 
@@ -35,7 +35,7 @@ public class Player {
         this.money = money;
     }
 
-    public int getHealth() {
+    public static int getHealth() {
         return health;
     }
 

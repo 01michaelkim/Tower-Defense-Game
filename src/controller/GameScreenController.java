@@ -12,6 +12,7 @@ import model.GameModel;
 import view.GameOverScreen;
 import view.GameScreen;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,9 +24,13 @@ public class GameScreenController extends ProgramScreenController {
     private Tower plant;
     private Tower notebook;
     private Tower fish;
-    private ArrayList<Enemy> enemyList = new ArrayList<>();
+    private static ArrayList<Enemy> enemyList = new ArrayList<>();
 
     private ArrayList<Tower> towers = new ArrayList<>();
+
+    public static ArrayList<Enemy> getEnemyList() {
+        return enemyList;
+    }
 
     public GameScreenController(GameScreen gameScreen) {
         this.setPlayer(gameScreen.getPlayer());
@@ -38,6 +43,7 @@ public class GameScreenController extends ProgramScreenController {
         this.fish = gameScreen.getFishTower();
 
         this.currentStage = gameScreen.getStage();
+        this.enemyList = gameScreen.getEnemyList();
     }
 
     public void resetGameParameters() {
@@ -61,14 +67,20 @@ public class GameScreenController extends ProgramScreenController {
 
     public void initCombat() {
         if (GameModel.getDifficulty().equals("EASY")) {
-            Overdude enemy = new Overdude(0, 20);
-            enemyList.add(enemy);
+            for (int i = 1; i <= 10; i++) {
+                Overdude enemy = new Overdude(-i*50, 20);
+                enemyList.add(enemy);
+            }
         } else if (GameModel.getDifficulty().equals("MEDIUM")) {
-            Pizza enemy = new Pizza(0, 20);
-            enemyList.add(enemy);
+            for (int i = 1; i <= 10; i++) {
+                Pizza enemy = new Pizza(-i*50, 20);
+                enemyList.add(enemy);
+            }
         } else if (GameModel.getDifficulty().equals("HARD")) {
-            Benzo enemy = new Benzo(0, 20);
-            enemyList.add(enemy);
+            for (int i = 1; i <= 10; i++) {
+                Benzo enemy = new Benzo(-i*50, 20);
+                enemyList.add(enemy);
+            }
         }
     }
 

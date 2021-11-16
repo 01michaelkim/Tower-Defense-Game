@@ -2,10 +2,7 @@ package view;
 
 
 import controller.GameScreenController;
-import entities.Fish;
-import entities.Notebook;
-import entities.Plant;
-import entities.Tower;
+import entities.*;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.geometry.Insets;
 import model.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -28,7 +26,7 @@ public class GameScreen extends ProgramScreen {
     private Label healthLabel;
     private Label moneyLabel;
     private HashMap<String, Tower> towers;
-    private ImageView startButton;
+    private static ImageView startButton;
     private BorderPane border;
     private GameScreenController controller;
     private Canvas canvas;
@@ -37,6 +35,7 @@ public class GameScreen extends ProgramScreen {
     private GraphicsContext g;
     private boolean inGame = true;
     private double gameTick = 1e8;
+    private static ArrayList<Enemy> enemyList = new ArrayList<>();
 
     public GameScreen(Player player) {
         this.setPlayer(player);
@@ -148,7 +147,11 @@ public class GameScreen extends ProgramScreen {
         controller.drawEnemies(g);
     }
 
-    public ImageView getStartButton() {
+    public static ArrayList<Enemy> getEnemyList() {
+        return enemyList;
+    }
+
+    public static ImageView getStartButton() {
         return startButton;
     }
 

@@ -11,11 +11,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.ComboBox;
 
 public class ConfigurationScreen extends ProgramScreen {
+    private static TextField nameLabel;
     private final int width = 500;
     private final int height = 250;
-    private Button playButton;
-    private ComboBox dropdown;
-    private TextField nameLabel;
+    private static Button playButton;
+    private static ComboBox dropdown;
     private static Label namePrompt;
     private VBox configBox = new VBox();
     private ConfigurationScreenController controller;
@@ -89,15 +89,15 @@ public class ConfigurationScreen extends ProgramScreen {
         this.pane.setCenter(configBox);
     }
 
-    public Button getPlayButton() {
+    public static Button getPlayButton() {
         return playButton;
     }
 
-    public ComboBox getDropdown() {
+    public static ComboBox getDropdown() {
         return dropdown;
     }
 
-    public TextField getNameLabel() {
+    public static TextField getNameLabel() {
         return nameLabel;
     }
 

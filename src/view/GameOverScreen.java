@@ -9,8 +9,8 @@ import javafx.scene.layout.*;
 public class GameOverScreen extends ProgramScreen {
     private final int width = 500;
     private final int height = 500;
-    private ImageView restartButton;
-    private ImageView exitButton;
+    private static ImageView restartButton;
+    private static ImageView exitButton;
     private VBox screenPane;
     private GameOverScreenController controller;
 
@@ -74,10 +74,10 @@ public class GameOverScreen extends ProgramScreen {
         this.pane.setCenter(this.screenPane);
     }
 
-    public ImageView getRestartButton() {
+    public static ImageView getRestartButton() {
         return restartButton;
     }
-    public ImageView getExitButton() {
+    public static ImageView getExitButton() {
         return exitButton;
     }
 }

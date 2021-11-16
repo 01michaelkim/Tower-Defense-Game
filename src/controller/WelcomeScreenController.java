@@ -32,4 +32,8 @@ public class WelcomeScreenController extends ProgramScreenController {
             this.startButton.setImage(this.startButtonDefault);
         });
     }
+
+    public ImageView getStartButton() {
+        return startButton;
+    }
 }

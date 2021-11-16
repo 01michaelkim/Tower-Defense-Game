@@ -13,7 +13,7 @@ public class WelcomeScreen extends ProgramScreen {
     private final int height = 500;
     private WelcomeScreenController controller;
 
-    private ImageView startButton;
+    private static ImageView startButton;
 
     public WelcomeScreen() {
         this.initStage(this.width, this.height);
@@ -53,7 +53,7 @@ public class WelcomeScreen extends ProgramScreen {
         this.pane.setCenter(vbox);
     }
 
-    public ImageView getStartButton() {
+    public static ImageView getStartButton() {
         return startButton;
     }
 }
