@@ -1,10 +1,7 @@
 import application.Main;
-import controller.ConfigurationScreenController;
-import controller.WelcomeScreenController;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
-import model.GameModel;
 import model.Player;
 import org.junit.Assert;
 import org.junit.Before;
@@ -166,7 +163,7 @@ public class M5ControllerTest extends ApplicationTest {
         }
         boolean allDead = true;
         for (int i = 0; i < ((GameScreen) controller.getScreen()).getEnemyList().size(); i++) {
-            if (((GameScreen) controller.getScreen()).getEnemyList().get(i).getisAlive() == true) {
+            if (((GameScreen) controller.getScreen()).getEnemyList().get(i).getisAlive()) {
                 allDead = false;
             }
         }
@@ -188,7 +185,7 @@ public class M5ControllerTest extends ApplicationTest {
         }
         boolean allDead = true;
         for (int i = 0; i < ((GameScreen) controller.getScreen()).getEnemyList().size(); i++) {
-            if (((GameScreen) controller.getScreen()).getEnemyList().get(i).getisAlive() == true) {
+            if (((GameScreen) controller.getScreen()).getEnemyList().get(i).getisAlive()) {
                 allDead = false;
             }
         }
@@ -206,8 +203,10 @@ public class M5ControllerTest extends ApplicationTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        verifyThat(((GameOverScreen) controller.getScreen()).getRestartButton(), NodeMatchers.isNotNull());
-        verifyThat(((GameOverScreen) controller.getScreen()).getExitButton(), NodeMatchers.isNotNull());
+        verifyThat(((GameOverScreen) controller.getScreen()).getRestartButton(),
+                NodeMatchers.isNotNull());
+        verifyThat(((GameOverScreen) controller.getScreen()).getExitButton(),
+                NodeMatchers.isNotNull());
     }
     @Test
     public void notGameOverTest() {
@@ -223,8 +222,10 @@ public class M5ControllerTest extends ApplicationTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        verifyThat(((GameOverScreen) controller.getScreen()).getRestartButton(), NodeMatchers.isNull());
-        verifyThat(((GameOverScreen) controller.getScreen()).getExitButton(), NodeMatchers.isNull());
+        verifyThat(((GameOverScreen) controller.getScreen()).getRestartButton(),
+                NodeMatchers.isNull());
+        verifyThat(((GameOverScreen) controller.getScreen()).getExitButton(),
+                NodeMatchers.isNull());
     }
 }
 

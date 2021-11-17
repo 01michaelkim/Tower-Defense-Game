@@ -12,7 +12,6 @@ import model.GameModel;
 import view.GameOverScreen;
 import view.GameScreen;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,17 +67,17 @@ public class GameScreenController extends ProgramScreenController {
     public void initCombat() {
         if (GameModel.getDifficulty().equals("EASY")) {
             for (int i = 1; i <= 10; i++) {
-                Overdude enemy = new Overdude(-i*50, 20);
+                Overdude enemy = new Overdude(-i * 50, 20);
                 enemyList.add(enemy);
             }
         } else if (GameModel.getDifficulty().equals("MEDIUM")) {
             for (int i = 1; i <= 10; i++) {
-                Pizza enemy = new Pizza(-i*50, 20);
+                Pizza enemy = new Pizza(-i * 50, 20);
                 enemyList.add(enemy);
             }
         } else if (GameModel.getDifficulty().equals("HARD")) {
             for (int i = 1; i <= 10; i++) {
-                Benzo enemy = new Benzo(-i*50, 20);
+                Benzo enemy = new Benzo(-i * 50, 20);
                 enemyList.add(enemy);
             }
         }
