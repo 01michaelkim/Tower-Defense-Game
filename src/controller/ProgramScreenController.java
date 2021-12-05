@@ -36,6 +36,9 @@ abstract class ProgramScreenController implements ProgramScreenControllerInterfa
         } else if (programScreen instanceof GameOverScreen) {
             GameOverScreen gameOverScreen = (GameOverScreen) programScreen;
             this.nextStage = programScreen.getStage();
+        } else if (programScreen instanceof WinScreen) {
+            WinScreen winScreen = (WinScreen) programScreen;
+            this.nextStage = programScreen.getStage();
         }
     }
 

@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import model.GameModel;
 import view.GameOverScreen;
 import view.GameScreen;
+import view.WinScreen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class GameScreenController extends ProgramScreenController {
     private Tower notebook;
     private Tower fish;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
+    private boolean inGame = false;
 
     private ArrayList<Tower> towers = new ArrayList<>();
 
@@ -90,6 +92,7 @@ public class GameScreenController extends ProgramScreenController {
         });
 
         this.startButton.setOnMouseClicked(e -> {
+            inGame = true;
             initCombat();
             startButton.setVisible(false);
         });
@@ -199,6 +202,12 @@ public class GameScreenController extends ProgramScreenController {
                 enemy.updatePos();
             }
             enemyList.removeAll(found);
+            GameModel.setNumdead(10 - enemyList.size());
+        } else {
+            if (inGame) {
+                inGame = false;
+                win();
+            }
         }
     }
 
@@ -363,5 +372,14 @@ public class GameScreenController extends ProgramScreenController {
             flag = false;
         }
         return flag;
+    }
+    public void win() {
+        if (getEnemyList().isEmpty()) {
+            setNextStage(new WinScreen());
+            currentStage.close();
+            currentStage = null;
+            currentStage = nextStage;
+            currentStage.show();
+        }
     }
 }
