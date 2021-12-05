@@ -4,8 +4,11 @@ package view;
 import controller.GameScreenController;
 import entities.*;
 import javafx.animation.AnimationTimer;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -27,6 +30,10 @@ public class GameScreen extends ProgramScreen {
     private Label moneyLabel;
     private HashMap<String, Tower> towers;
     private static ImageView startButton;
+    private static ImageView leftButton;
+    private static ImageView rightButton;
+    private static ImageView upgradeButton;
+    private Label towerLabel;
     private BorderPane border;
     private GameScreenController controller;
     private Canvas canvas;
@@ -59,7 +66,10 @@ public class GameScreen extends ProgramScreen {
             this.controller.dragDropHandler(this, towers.get(key));
         }
 
+        this.controller.leftButtonHandler();
+        this.controller.rightButtonHandler();
         this.controller.startButtonHandler();
+        this.controller.upgradeButtonHandler();
     }
 
     public void initStageElements() {
@@ -77,7 +87,6 @@ public class GameScreen extends ProgramScreen {
         towers.put("Plant", new Plant(0, 0));
         towers.put("Notebook", new Notebook(0, 0));
         towers.put("Fish", new Fish(0, 0));
-        System.out.println(towers.toString());
     }
 
     public void createBackground() {
@@ -106,11 +115,46 @@ public class GameScreen extends ProgramScreen {
         characterName = new Label("Name: " + getPlayer().getCharacterName());
         playerStats.getChildren().addAll(healthLabel, moneyLabel, characterName);
 
+        VBox towerUpgradeMenu = upgradeTowers();
+
         BorderPane bringTogether = new BorderPane();
         bringTogether.setLeft(playerStats);
+        bringTogether.setCenter(towerUpgradeMenu);
         bringTogether.setRight(button);
         bringTogether.setPadding(new Insets(0, 25, 25, 25));
         this.border.setBottom(bringTogether);
+    }
+
+    public VBox upgradeTowers() {
+        VBox upgradeMenu = new VBox();
+        HBox towerSelect = new HBox();
+
+        leftButton = new ImageView(new Image("images//larrow1.png"));
+        rightButton = new ImageView(new Image("images//rarrow1.png"));
+        upgradeButton = new ImageView(new Image("images//upgradeButton1.png"));
+
+        towerLabel = createTowerLabel();
+
+        towerSelect.getChildren().addAll(leftButton, towerLabel, rightButton);
+        towerSelect.setSpacing(10);
+        towerSelect.setAlignment(Pos.CENTER);
+
+        upgradeMenu.getChildren().addAll(towerSelect, upgradeButton);
+        upgradeMenu.setSpacing(10);
+        upgradeMenu.setAlignment(Pos.CENTER);
+
+        return upgradeMenu;
+    }
+
+    public Label createTowerLabel() {
+        Label towerLabel = new Label("Select Tower!");
+        towerLabel.setStyle("-fx-background-color: white; " +
+                "-fx-border-color: black; " +
+                "-fx-border-width: 1px;");
+        towerLabel.setMinWidth(130);
+        towerLabel.setMinHeight(30);
+        towerLabel.setAlignment(Pos.CENTER);
+        return towerLabel;
     }
 
     public void createShopMenu() {
@@ -144,7 +188,9 @@ public class GameScreen extends ProgramScreen {
         g.clearRect(0, 0, canvasWidth, canvasLength);
         controller.drawTowers(g, this);
         controller.updateEnemies(this);
+        controller.updateMoneyLabel(this);
         controller.drawEnemies(g);
+        controller.drawPointer(g);
     }
 
     public static ArrayList<Enemy> getEnemyList() {
@@ -153,6 +199,22 @@ public class GameScreen extends ProgramScreen {
 
     public static ImageView getStartButton() {
         return startButton;
+    }
+
+    public static ImageView getLeftButton() {
+        return leftButton;
+    }
+
+    public static ImageView getRightButton() {
+        return rightButton;
+    }
+
+    public static ImageView getUpgradeButton() {
+        return upgradeButton;
+    }
+
+    public Label getTowerLabel() {
+        return towerLabel;
     }
 
     public HashMap<String, Tower> getTowers() {
@@ -203,6 +265,10 @@ public class GameScreen extends ProgramScreen {
                 doGameCycle();
             }
         }
+    }
+
+    public GraphicsContext getGraphicsContext() {
+        return g;
     }
 }
 
