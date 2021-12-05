@@ -54,4 +54,6 @@ public abstract class Tower {
     public abstract void draw(GraphicsContext g);
     public abstract void attack(Enemy enemy);
     public abstract void drawLaser(GraphicsContext g, Tower tower, Enemy enemy);
+    public abstract void toggle();
+    public abstract int getFrameNum();
 }

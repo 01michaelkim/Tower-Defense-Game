@@ -38,8 +38,13 @@ public abstract class Enemy {
     public abstract int getCash();
     public abstract int getDamage();
 
-    public abstract double getTransparency();
-    public abstract void setTransparency(double transparency);
+    public double getTransparency() {
+        return transparency;
+    }
+    public void setTransparency(double transparency) {
+        this.transparency = transparency;
+    }
+
 
     public abstract void draw(GraphicsContext g);
 
@@ -89,7 +94,10 @@ public abstract class Enemy {
         this.health -= damage;
         if (this.health <= 0) {
             isAlive = false;
+        } else {
+            this.transparency = (.3 + (double)this.health/(double)this.startingHealth);
         }
     }
+    public abstract void toggle();
 }
 

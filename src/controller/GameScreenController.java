@@ -48,6 +48,7 @@ public class GameScreenController extends ProgramScreenController {
     private Tower plant;
     private Tower notebook;
     private Tower fish;
+    private Boss boss;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
     private boolean inGame = false;
 
@@ -76,6 +77,8 @@ public class GameScreenController extends ProgramScreenController {
 
         this.currentStage = gameScreen.getStage();
         this.enemyList = gameScreen.getEnemyList();
+
+        this.boss = new Boss(-50, 20);
     }
 
     public void resetGameParameters() {
@@ -113,6 +116,14 @@ public class GameScreenController extends ProgramScreenController {
         });
 
         this.leftButton.setOnMouseClicked(e -> {
+            if (towers.size() != 0) {
+                upgradePointer = mod(upgradePointer - 1, towers.size());
+                towerLabel.setText(towers.get(upgradePointer).toString());
+            } else {
+                towerLabel.setText("Select Tower!");
+            }
+        });
+        this.leftButton.setOnKeyReleased(e -> {
             if (towers.size() != 0) {
                 upgradePointer = mod(upgradePointer - 1, towers.size());
                 towerLabel.setText(towers.get(upgradePointer).toString());
@@ -205,8 +216,17 @@ public class GameScreenController extends ProgramScreenController {
             GameModel.setNumdead(10 - enemyList.size());
         } else {
             if (inGame) {
-                inGame = false;
-                win();
+                gameScreen.setBossTime(true);
+                boss.checkPath();
+                if (boss.getPos().getX() == 400 && boss.getPos().getY() == 380) {
+                    updateHealth(gameScreen, boss);
+                } else if (boss.getHealth() < 0) {
+                    gameScreen.setBossTime(false);
+                    inGame = false;
+                    updateMoney(gameScreen, boss);
+                    win();
+                }
+                boss.updatePos();
             }
         }
     }
@@ -233,8 +253,14 @@ public class GameScreenController extends ProgramScreenController {
     }
 
     public void drawEnemies(GraphicsContext g) {
-        for (Enemy enemy: enemyList) {
-            enemy.draw(g);
+        if (!enemyList.isEmpty()) {
+            for (Enemy enemy: enemyList) {
+                enemy.draw(g);
+            }
+        } else {
+            if (inGame) {
+                boss.draw(g);
+            }
         }
     }
 
@@ -328,16 +354,37 @@ public class GameScreenController extends ProgramScreenController {
         }
         for (Tower tower : towers) {
             tower.draw(g);
-            for (Enemy enemy : enemyList) {
-                if (inRange(tower, enemy)) {
-                    tower.drawLaser(g, tower, enemy);
-                    tower.attack(enemy);
-                    if (enemy.getHealth() < enemy.getStartingHealth() / 2) {
-                        enemy.setTransparency(0.5);
+            if (!enemyList.isEmpty()) {
+                for (Enemy enemy : enemyList) {
+                    if (inRange(tower, enemy)) {
+                        tower.drawLaser(g, tower, enemy);
+                        tower.attack(enemy);
+                    }
+                }
+            } else { //update drawTowers for Boss
+                if (inGame) {
+                    if (inRange(tower, boss)) {
+                        tower.drawLaser(g, tower, boss);
+                        tower.attack(boss);
                     }
                 }
             }
         }
+    }
+
+    public void toggleTowers() {
+        for (Tower tower : towers) {
+            tower.toggle();
+        }
+    }
+
+    public void toggleEnemies() {
+        for (Enemy enemy: enemyList) {
+            enemy.toggle();
+        }
+    }
+    public void toggleBoss() {
+        boss.toggle();
     }
 
     private boolean inRange(Tower tower, Enemy enemy) {
@@ -373,6 +420,7 @@ public class GameScreenController extends ProgramScreenController {
         }
         return flag;
     }
+
     public void win() {
         if (getEnemyList().isEmpty()) {
             setNextStage(new WinScreen());

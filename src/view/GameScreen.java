@@ -43,6 +43,7 @@ public class GameScreen extends ProgramScreen {
     private boolean inGame = true;
     private double gameTick = 1e8;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
+    private static boolean bossTime = false;
 
     public GameScreen(Player player) {
         this.setPlayer(player);
@@ -253,16 +254,31 @@ public class GameScreen extends ProgramScreen {
         return border;
     }
 
+    public static void setBossTime(boolean flag) {
+        bossTime = flag;
+    }
+
     private class MyTimer extends AnimationTimer {
         private long prevTime = 0;
+        private long prevTime2 = 0;
 
         @Override
         public void handle(long a) {
+            long b = a;
             long dt = a - prevTime;
+            long dt2 = b - prevTime2;
 
             if (dt > gameTick) {
                 prevTime = a;
                 doGameCycle();
+            }
+            if (dt2 > gameTick * 3) {
+                controller.toggleTowers();
+                controller.toggleEnemies();
+                if (bossTime) {
+                    controller.toggleBoss();
+                }
+                prevTime2 = b;
             }
         }
     }
