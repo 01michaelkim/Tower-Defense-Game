@@ -44,9 +44,11 @@ public abstract class Tower {
     }
 
     public abstract int getAttack();
-
+    public abstract void upgradeTower();
+    public abstract int getUpgradeCost();
     public abstract int getPrice();
     public abstract int getRange();
+    public abstract boolean upgraded();
     public abstract ImageView getImageView();
     public abstract String getDescription();
     public abstract void draw(GraphicsContext g);

@@ -9,28 +9,64 @@ import javafx.scene.paint.Color;
 public class Plant extends Tower {
     private Image image;
     private ImageView imageView;
+
     private int price = 50;
+    private int upgradeCost = 100;
+    private boolean upgraded = false;
+
     private String description;
     private Point2D pos;
-    private int range = 100;
-    private int attack = 2;
+
+    private int range;
+    private int attack;
+
+    private final int baseRange = 100;
+    private final int baseAttack = 2;
+
+    private final int upgradedRange = 150;
+    private final int upgradedAttack = 4;
+
+    private Color laserColor;
 
     public Plant(double x, double y) {
         super();
         this.pos = new Point2D(x, y);
+
+        this.laserColor = Color.LIGHTGREEN;;
+        this.attack = baseAttack;
+        this.range = baseRange;
+
         this.image = new Image("images/plant.png");
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
         description = "Plant Tower"
                 + "\nCost: " + price
-                + "\nRange: " + range
-                + "\nAttack Dmg: " + attack;
+                + "\nRange: " + baseRange
+                + "\nAttack Dmg: " + baseAttack
+                + "\n"
+                + "Upgrade Plant Tower"
+                + "\nCost: " + price
+                + "\nRange: " + upgradedRange
+                + "\nAttack Dmg: " + upgradedAttack;;
     }
 
     @Override
     public int getAttack() {
         return attack;
+    }
+
+    @Override
+    public boolean upgraded() {
+        return upgraded;
+    }
+
+    @Override
+    public void upgradeTower() {
+        this.laserColor = Color.GOLD;
+        this.upgraded = true;
+        this.attack = upgradedAttack;
+        this.range = upgradedRange;
     }
 
     @Override
@@ -53,6 +89,11 @@ public class Plant extends Tower {
         return price;
     }
 
+    @Override
+    public int getUpgradeCost() {
+        return upgradeCost;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,8 +110,8 @@ public class Plant extends Tower {
 
     @Override
     public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
-        g.setFill(Color.LIGHTGREEN);
-        g.setStroke(Color.LIGHTGREEN);
+        g.setFill(laserColor);
+        g.setStroke(laserColor);
         g.setLineWidth(2);
         g.beginPath();
         g.moveTo(tower.getPos().getX() + 16, tower.getPos().getY() + 16);

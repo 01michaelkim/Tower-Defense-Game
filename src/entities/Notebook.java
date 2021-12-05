@@ -9,15 +9,32 @@ import javafx.scene.paint.Color;
 public class Notebook extends Tower {
     private Image image;
     private ImageView imageView;
+
     private int price = 100;
+    private int upgradeCost = 200;
+    private boolean upgraded = false;
+
     private String description;
     private Point2D pos;
-    private int range = 150;
-    private int attack = 5;
+    private int range;
+    private int attack;
+
+    private final int baseRange = 150;
+    private final int baseAttack = 5;
+
+    private final int upgradedRange = 200;
+    private final int upgradedAttack = 10;
+
+    private Color laserColor;
 
     public Notebook(double x, double y) {
         super();
         this.pos = new Point2D(x, y);
+
+        this.laserColor = Color.BLUE;;
+        this.attack = baseAttack;
+        this.range = baseRange;
+
         this.image = new Image("images/notebook.png");
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
@@ -25,12 +42,30 @@ public class Notebook extends Tower {
         description = "Notebook Tower"
                 + "\nCost: " + price
                 + "\nRange: " + range
-                + "\nAttack Dmg: " + attack;
+                + "\nAttack Dmg: " + attack
+                + "\n"
+                + "Upgrade Notebook Tower"
+                + "\nCost: " + price
+                + "\nRange: " + upgradedRange
+                + "\nAttack Dmg: " + upgradedAttack;
     }
 
     @Override
     public int getAttack() {
         return attack;
+    }
+
+    @Override
+    public boolean upgraded() {
+        return upgraded;
+    }
+
+    @Override
+    public void upgradeTower() {
+        this.laserColor = Color.GOLD;
+        this.upgraded = true;
+        this.attack = upgradedAttack;
+        this.range = upgradedRange;
     }
 
     @Override
@@ -53,6 +88,11 @@ public class Notebook extends Tower {
         return price;
     }
 
+    @Override
+    public int getUpgradeCost() {
+        return upgradeCost;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -69,8 +109,8 @@ public class Notebook extends Tower {
 
     @Override
     public void drawLaser(GraphicsContext g, Tower tower, Enemy enemy) {
-        g.setFill(Color.RED);
-        g.setStroke(Color.RED);
+        g.setFill(laserColor);
+        g.setStroke(laserColor);
         g.setLineWidth(2);
         g.beginPath();
         g.moveTo(tower.getPos().getX() + 16, tower.getPos().getY() + 16);

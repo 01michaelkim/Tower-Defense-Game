@@ -2,8 +2,12 @@ package controller;
 
 import entities.*;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -19,7 +23,27 @@ public class GameScreenController extends ProgramScreenController {
     private ImageView startButton;
     private Image startButtonDefault = new Image("images//startButton1.png");
     private Image startButtonHovered = new Image("images//startButton2.png");
+
+    private ImageView leftButton;
+    private Image leftButtonDefault = new Image("images//larrow1.png");
+    private Image leftButtonHovered = new Image("images//larrow2.png");
+
+    private ImageView rightButton;
+    private Image rightButtonDefault = new Image("images//rarrow1.png");
+    private Image rightButtonHovered = new Image("images//rarrow2.png");
+
+    private ImageView upgradeButton;
+    private Image upgradeButtonDefault = new Image("images//upgradeButton1.png");
+    private Image upgradeButtonHovered = new Image("images//upgradeButton2.png");
+
+    private Image pointerImage = new Image("images//pointer-pixilart.png");
+
+    private GraphicsContext g;
+
+    private Label towerLabel;
+
     private BorderPane border;
+    private int upgradePointer = 0;
     private Tower plant;
     private Tower notebook;
     private Tower fish;
@@ -35,11 +59,18 @@ public class GameScreenController extends ProgramScreenController {
         this.setPlayer(gameScreen.getPlayer());
 
         this.startButton = gameScreen.getStartButton();
+        this.leftButton = gameScreen.getLeftButton();
+        this.rightButton = gameScreen.getRightButton();
+        this.upgradeButton = gameScreen.getUpgradeButton();
+
         this.border = gameScreen.getBorder();
+        this.g = gameScreen.getGraphicsContext();
 
         this.plant = gameScreen.getPlantTower();
         this.notebook = gameScreen.getNotebookTower();
         this.fish = gameScreen.getFishTower();
+
+        this.towerLabel = gameScreen.getTowerLabel();
 
         this.currentStage = gameScreen.getStage();
         this.enemyList = gameScreen.getEnemyList();
@@ -61,6 +92,76 @@ public class GameScreenController extends ProgramScreenController {
         this.startButton.setOnMouseClicked(e -> {
             initCombat();
             startButton.setVisible(false);
+        });
+    }
+
+    public int mod(int x, int m) {
+        return (x % m + m) % m;
+    }
+
+    public void leftButtonHandler() {
+
+        this.leftButton.setOnMouseEntered(e -> {
+            this.leftButton.setImage(this.leftButtonHovered);
+        });
+
+        this.leftButton.setOnMouseExited(e -> {
+            this.leftButton.setImage(this.leftButtonDefault);
+        });
+
+        this.leftButton.setOnMouseClicked(e -> {
+            if (towers.size() != 0) {
+                upgradePointer = mod(upgradePointer - 1, towers.size());
+                towerLabel.setText(towers.get(upgradePointer).toString());
+            } else {
+                towerLabel.setText("Select Tower!");
+            }
+        });
+    }
+
+    public void drawPointer(GraphicsContext g) {
+        if (towers.size() != 0) {
+            Point2D towerPos = towers.get(upgradePointer).getPos();
+            g.drawImage(pointerImage, towerPos.getX(), towerPos.getY() - 25);
+        }
+    }
+
+    public void rightButtonHandler() {
+        this.rightButton.setOnMouseEntered(e -> {
+            this.rightButton.setImage(this.rightButtonHovered);
+        });
+
+        this.rightButton.setOnMouseExited(e -> {
+            this.rightButton.setImage(this.rightButtonDefault);
+        });
+
+        this.rightButton.setOnMouseClicked(e -> {
+            if (towers.size() != 0) {
+                upgradePointer = mod(upgradePointer + 1, towers.size());
+                towerLabel.setText(towers.get(upgradePointer).toString());
+            } else {
+                towerLabel.setText("Select Tower!");
+            }
+        });
+    }
+
+    public void upgradeButtonHandler() {
+        this.upgradeButton.setOnMouseEntered(e -> {
+            this.upgradeButton.setImage(this.upgradeButtonHovered);
+        });
+
+        this.upgradeButton.setOnMouseExited(e -> {
+            this.upgradeButton.setImage(this.upgradeButtonDefault);
+        });
+
+        this.upgradeButton.setOnMouseClicked(e -> {
+            Tower currentTower = towers.get(upgradePointer);
+            if (currentTower.getUpgradeCost() <= getPlayer().getMoney()) {
+                if (!currentTower.upgraded()) {
+                    currentTower.upgradeTower();
+                    getPlayer().setMoney(getPlayer().getMoney() - currentTower.getUpgradeCost());
+                }
+            }
         });
     }
 
@@ -103,6 +204,10 @@ public class GameScreenController extends ProgramScreenController {
 
     public void updateMoney(GameScreen gameScreen, Enemy enemy) {
         getPlayer().setMoney(getPlayer().getMoney() + enemy.getCash());
+        gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
+    }
+
+    public void updateMoneyLabel(GameScreen gameScreen) {
         gameScreen.setMoneyLabel("Money: " + getPlayer().getMoney());
     }
 
@@ -208,6 +313,9 @@ public class GameScreenController extends ProgramScreenController {
     public void drawTowers(GraphicsContext g, GameScreen gameScreen) {
         if (towers == null) {
             throw new IllegalArgumentException("TowersList is null");
+        }
+        if (towers.size() != 0) {
+            towerLabel.setText(towers.get(upgradePointer).toString());
         }
         for (Tower tower : towers) {
             tower.draw(g);
