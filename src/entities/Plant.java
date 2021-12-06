@@ -8,6 +8,11 @@ import javafx.scene.paint.Color;
 
 public class Plant extends Tower {
     private Image image;
+    private Image img1;
+    private Image img2;
+    private Image img3;
+    private Image img4;
+    private int frameNum = 1;
     private ImageView imageView;
 
     private int price = 50;
@@ -36,7 +41,12 @@ public class Plant extends Tower {
         this.attack = baseAttack;
         this.range = baseRange;
 
-        this.image = new Image("images/plant.png");
+        this.image = new Image("images/plant1.png");
+        this.img1 = new Image("images/plant1.png");
+        this.img2 = new Image("images/plant2.png");
+        this.img3 = new Image("images/plant3.png");
+        this.img4 = new Image("images/plant4.png");
+
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
@@ -119,9 +129,35 @@ public class Plant extends Tower {
         g.lineTo(enemy.getPos().getX() + 16, enemy.getPos().getY() + 16);
         g.stroke();
     }
-
+    @Override
+    public void toggle() {
+        switch(frameNum) {
+            case 1:
+                image = img2;
+                frameNum = 2;
+                break;
+            case 2:
+                image = img3;
+                frameNum = 3;
+                break;
+            case 3:
+                image = img4;
+                frameNum = 4;
+                break;
+            case 4:
+                image = img1;
+                frameNum = 1;
+                break;
+            default:
+                break;
+        }
+    }
     @Override
     public String toString() {
         return "Plant Tower";
+    }
+
+    public int getFrameNum() {
+        return frameNum;
     }
 }

@@ -4,7 +4,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import view.ProgramScreen;
 import view.WelcomeScreen;
-
+ 
 public class Main extends Application {
     private ProgramScreen screen;
     @Override
