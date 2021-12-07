@@ -21,8 +21,10 @@ public class Notebook extends Tower {
 
     private String description;
     private Point2D pos;
+
     private int range;
     private int attack;
+    private int cap = 3;
 
     private final int baseRange = 150;
     private final int baseAttack = 5;
@@ -150,8 +152,9 @@ public class Notebook extends Tower {
                 break;
         }
     }
-    public int getFrameNum() {
-        return frameNum;
+    @Override
+    public int getCap() {
+        return cap;
     }
     @Override
     public String toString() {

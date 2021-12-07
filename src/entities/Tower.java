@@ -11,6 +11,8 @@ public abstract class Tower {
     private Point2D pos;
     private int range;
     private int attack;
+    private int cap;
+    private boolean upgraded;
 
     public Tower() {
         if (GameModel.getDifficulty() == "EASY") {
@@ -48,6 +50,7 @@ public abstract class Tower {
     public abstract int getUpgradeCost();
     public abstract int getPrice();
     public abstract int getRange();
+    public abstract int getCap();
     public abstract boolean upgraded();
     public abstract ImageView getImageView();
     public abstract String getDescription();
@@ -55,5 +58,4 @@ public abstract class Tower {
     public abstract void attack(Enemy enemy);
     public abstract void drawLaser(GraphicsContext g, Tower tower, Enemy enemy);
     public abstract void toggle();
-    public abstract int getFrameNum();
 }

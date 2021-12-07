@@ -2,9 +2,15 @@ package view;
 
 import controller.GameOverScreenController;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
+import model.GameModel;
+import model.Player;
 
 public class GameOverScreen extends ProgramScreen {
     private final int width = 500;
@@ -34,10 +40,35 @@ public class GameOverScreen extends ProgramScreen {
 
     public void initStageElements() {
         this.screenPane = new VBox();
-
         this.createGameOverImage();
+        this.createStats();
         this.createButtons();
         this.createStage();
+    }
+
+    public void createStats() {
+        Label text1 = new Label();
+        Label text2 = new Label();
+        Label text3 = new Label();
+        int health = Player.getHealth();
+        int money = Player.getMoney();
+        String h = Integer.toString(health);
+        String m = Integer.toString(money);
+        text1.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        text1.setText("Player Health: " + h);
+        text2.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        text2.setText("Player Money: " + m);
+//        text2.setX(100);
+//        text2.setY(145);
+        int dead = GameModel.getNumdead();
+        String d = Integer.toString(dead);
+        text3.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
+        text3.setText("Kills: " + d);
+//        text3.setX(100);
+//        text3.setY(160);
+        VBox vbox = new VBox(text1, text2, text3);
+        vbox.setAlignment(Pos.CENTER);
+        this.screenPane.getChildren().add(vbox);
     }
 
     public void createGameOverImage() {
@@ -70,7 +101,7 @@ public class GameOverScreen extends ProgramScreen {
 
     public void createStage() {
         this.screenPane.setAlignment(Pos.TOP_CENTER);
-        this.screenPane.setSpacing(200);
+        this.screenPane.setSpacing(50);
         this.pane.setCenter(this.screenPane);
     }
 
