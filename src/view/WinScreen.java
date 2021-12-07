@@ -70,7 +70,7 @@ public class WinScreen extends ProgramScreen {
         text2.setText("Player Money: " + m);
 //        text2.setX(100);
 //        text2.setY(145);
-        int dead = GameModel.getNumdead();
+        int dead = GameModel.getNumdead() + 1;
         String d = Integer.toString(dead);
         text3.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 10));
         text3.setText("Kills: " + d);

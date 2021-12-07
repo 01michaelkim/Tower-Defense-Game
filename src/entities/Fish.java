@@ -21,8 +21,10 @@ public class Fish extends Tower {
 
     private String description;
     private Point2D pos;
+
     private int range;
     private int attack;
+    private int cap = 2;
 
     private final int baseRange = 200;
     private final int baseAttack = 10;
@@ -149,8 +151,9 @@ public class Fish extends Tower {
                 break;
         }
     }
-    public int getFrameNum() {
-        return frameNum;
+    @Override
+    public int getCap() {
+        return cap;
     }
     @Override
     public String toString() {

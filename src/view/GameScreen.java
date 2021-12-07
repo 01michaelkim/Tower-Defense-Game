@@ -41,6 +41,7 @@ public class GameScreen extends ProgramScreen {
     private final int canvasLength = 500;
     private GraphicsContext g;
     private boolean inGame = true;
+    private static boolean towerUpgraded = true;
     private double gameTick = 1e8;
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
     private static boolean bossTime = false;
@@ -256,6 +257,14 @@ public class GameScreen extends ProgramScreen {
 
     public static void setBossTime(boolean flag) {
         bossTime = flag;
+    }
+
+    public static void setTowerUpgraded(boolean flag) {
+        towerUpgraded = flag;
+    }
+
+    public static boolean isTowerUpgraded() {
+        return towerUpgraded;
     }
 
     private class MyTimer extends AnimationTimer {

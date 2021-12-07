@@ -24,6 +24,7 @@ public class Plant extends Tower {
 
     private int range;
     private int attack;
+    private int cap = 5;
 
     private final int baseRange = 100;
     private final int baseAttack = 2;
@@ -153,11 +154,11 @@ public class Plant extends Tower {
         }
     }
     @Override
+    public int getCap() {
+        return cap;
+    }
+    @Override
     public String toString() {
         return "Plant Tower";
-    }
-
-    public int getFrameNum() {
-        return frameNum;
     }
 }

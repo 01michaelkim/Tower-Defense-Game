@@ -3,6 +3,7 @@ package entities;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import model.GameModel;
 
 public class Boss extends Enemy{
     private Image image;
@@ -17,11 +18,11 @@ public class Boss extends Enemy{
 
     public Boss(double x, double y) {
         super(80, 5, x, y);
-        this.image = new Image("images/overdude1.png");
-        this.img1 = new Image("images/overdude1.png");
-        this.img2 = new Image("images/overdude2.png");
-        this.img3 = new Image("images/overdude3.png");
-        this.img4 = new Image("images/overdude4.png");
+        this.image = new Image("images/boss1.png");
+        this.img1 = new Image("images/boss1.png");
+        this.img2 = new Image("images/boss2.png");
+        this.img3 = new Image("images/boss3.png");
+        this.img4 = new Image("images/boss4.png");
         this.imageView = new ImageView(image);
         imageView.setFitWidth(super.getImageSize());
         imageView.setFitHeight(super.getImageSize());
@@ -69,6 +70,22 @@ public class Boss extends Enemy{
                 break;
             default:
                 break;
+        }
+    }
+    @Override
+    public void checkPath() {
+        if (super.getPos().getX() == 320 && super.getPos().getY() == 10) {
+            super.setDx(0);
+            super.setDy(super.getSpeed());
+        } else if (super.getPos().getX() == 320 && super.getPos().getY() == 210) {
+            super.setDx(-super.getSpeed());
+            super.setDy(0);
+        } else if (super.getPos().getX() == 10 && super.getPos().getY() == 210) {
+            super.setDx(0);
+            super.setDy(super.getSpeed());
+        } else if (super.getPos().getX() == 10 && super.getPos().getY() == 370) {
+            super.setDx(super.getSpeed());
+            super.setDy(0);
         }
     }
 }

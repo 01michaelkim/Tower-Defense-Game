@@ -45,6 +45,15 @@ public abstract class Enemy {
         this.transparency = transparency;
     }
 
+    public void setDx(int x) {
+        dx = x;
+    }
+    public void setDy(int y) {
+        dy = y;
+    }
+    public int getSpeed() {
+        return speed;
+    }
 
     public abstract void draw(GraphicsContext g);
 

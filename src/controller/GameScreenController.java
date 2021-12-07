@@ -52,7 +52,7 @@ public class GameScreenController extends ProgramScreenController {
     private static ArrayList<Enemy> enemyList = new ArrayList<>();
     private boolean inGame = false;
 
-    private ArrayList<Tower> towers = new ArrayList<>();
+    private static ArrayList<Tower> towers;
 
     public static ArrayList<Enemy> getEnemyList() {
         return enemyList;
@@ -74,11 +74,11 @@ public class GameScreenController extends ProgramScreenController {
         this.fish = gameScreen.getFishTower();
 
         this.towerLabel = gameScreen.getTowerLabel();
-
+        towers = new ArrayList<>();
         this.currentStage = gameScreen.getStage();
         this.enemyList = gameScreen.getEnemyList();
-
-        this.boss = new Boss(-50, 20);
+        gameScreen.setTowerUpgraded(true);
+        this.boss = new Boss(-100, 10);
     }
 
     public void resetGameParameters() {
@@ -181,17 +181,17 @@ public class GameScreenController extends ProgramScreenController {
 
     public void initCombat() {
         if (GameModel.getDifficulty().equals("EASY")) {
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Overdude enemy = new Overdude(-i * 50, 20);
                 enemyList.add(enemy);
             }
         } else if (GameModel.getDifficulty().equals("MEDIUM")) {
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Pizza enemy = new Pizza(-i * 50, 20);
                 enemyList.add(enemy);
             }
         } else if (GameModel.getDifficulty().equals("HARD")) {
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 20; i++) {
                 Benzo enemy = new Benzo(-i * 50, 20);
                 enemyList.add(enemy);
             }
@@ -209,16 +209,16 @@ public class GameScreenController extends ProgramScreenController {
                 } else if (enemy.getHealth() < 0) {
                     found.add(enemy);
                     updateMoney(gameScreen, enemy);
+                    GameModel.setNumdead(GameModel.getNumdead() + 1);
                 }
                 enemy.updatePos();
             }
             enemyList.removeAll(found);
-            GameModel.setNumdead(10 - enemyList.size());
         } else {
             if (inGame) {
                 gameScreen.setBossTime(true);
                 boss.checkPath();
-                if (boss.getPos().getX() == 400 && boss.getPos().getY() == 380) {
+                if (boss.getPos().getX() == 400 && boss.getPos().getY() == 370) {
                     updateHealth(gameScreen, boss);
                 } else if (boss.getHealth() < 0) {
                     gameScreen.setBossTime(false);
@@ -243,7 +243,8 @@ public class GameScreenController extends ProgramScreenController {
     public void updateHealth(GameScreen gameScreen, Enemy enemy) {
         getPlayer().setHealth(getPlayer().getHealth() - enemy.getDamage());
         gameScreen.setHealthLabel("Health: " + getPlayer().getHealth());
-        if (getPlayer().getHealth() <= 0) {
+        if (getPlayer().getHealth() <= 0 && inGame) {
+            inGame = false;
             setNextStage(new GameOverScreen());
             currentStage.close();
             currentStage = null;
@@ -360,6 +361,7 @@ public class GameScreenController extends ProgramScreenController {
                         tower.drawLaser(g, tower, enemy);
                         tower.attack(enemy);
                     }
+
                 }
             } else { //update drawTowers for Boss
                 if (inGame) {
@@ -429,5 +431,9 @@ public class GameScreenController extends ProgramScreenController {
             currentStage = nextStage;
             currentStage.show();
         }
+    }
+
+    public ArrayList<Tower> getTowers() {
+        return towers;
     }
 }
